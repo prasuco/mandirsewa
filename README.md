@@ -1,2 +1,9 @@
 # mandirsewa
-Here resides the code for mandir sewa platform.
+
+A platform made from the groundup to support mandir mandirs in nepal to accept donation through their own website.
+
+### Technology Stack:
+
+- php: for server side logic.
+- tailwindcss: for clean utility based styling
+- jQuery: for easy reactivity
