@@ -6,4 +6,4 @@ A platform made from the groundup to support mandir mandirs in nepal to accept d
 
 - php: for server side logic.
 - tailwindcss: for clean utility based styling
-- jQuery: for easy reactivity
+- jQuery: for easy reactivity(probably).
