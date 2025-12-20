@@ -7,8 +7,7 @@
 
 
 <footer>
-
-
+    <?= $_SESSION['message']??'' ?>
 </footer>
 
 </div>
@@ -18,3 +17,12 @@
 
 
 </html>
+
+<?php
+
+
+
+unset($_SESSION['message']);
+
+
+?>

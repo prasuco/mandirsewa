@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once __DIR__ . "/../config/db.php";
 ?>
 
@@ -32,7 +33,7 @@ require_once __DIR__ . "/../config/db.php";
                 </div>
 
                 <a
-                    href="register.php"
+                    href="/mandirsewa/register.php"
                     class="text-sm px-4 py-2 rounded-lg bg-primary text-white shadow-sm">
                     Get started
                     <i class="fas fa-arrow-right"></i>
