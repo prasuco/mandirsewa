@@ -19,10 +19,9 @@ require_once __DIR__ . "/../config/db.php";
 
 <body>
 
-    <div class="relative">
-        <!-- <header class="absolute mt-2 top-2 z-50"> -->
-        <div class="max-w-7xl sticky  top-0 mx-auto px-4">
-            <div class="h-16 bg-white   px-6 flex items-center justify-between">
+    <div class="bg-linear-to-b from-orange-50 to-white">
+        <div class="max-w-7xl sticky  top-4 mx-auto mb-2 px-4">
+            <div class="h-16 bg-white shadow rounded-2xl  px-6 flex items-center justify-between">
 
                 <div class="flex items-center gap-4">
                     <img
@@ -41,4 +40,3 @@ require_once __DIR__ . "/../config/db.php";
 
             </div>
         </div>
-        <!-- </header> -->

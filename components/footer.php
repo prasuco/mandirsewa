@@ -7,7 +7,7 @@
 
 
 <footer>
-    <?= $_SESSION['message']??'' ?>
+    <?= $_SESSION['message'] ?? '' ?>
 </footer>
 
 </div>
@@ -18,11 +18,4 @@
 
 </html>
 
-<?php
-
-
-
-unset($_SESSION['message']);
-
-
-?>
+<?php unset($_SESSION['message']); ?>

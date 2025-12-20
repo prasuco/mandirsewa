@@ -4,7 +4,7 @@ include '../components/header.php';
 ?>
 
 
-<section class="bg-linear-to-b from-orange-50 to-white">
+<section class="">
   <div class="max-w-7xl mx-auto px-6 py-12">
     <div class="flex flex-col md:flex-row md:items-center gap-6">
 
