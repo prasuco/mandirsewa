@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: oklch(68% 0.18 45);   /* saffron */
+  --color-secondary: oklch(72% 0.2 350); /* rose */
+}
+
+@layer base {
+  html {
+    font-family: Inter, system-ui, sans-serif;
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  details summary::-webkit-details-marker {
+    display: none;
+  }
+}

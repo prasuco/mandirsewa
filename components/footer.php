@@ -8,10 +8,12 @@
 
 <footer>
 
-    <?= $title ?>
+
 </footer>
 
+</div>
 </body>
+
 
 
 
