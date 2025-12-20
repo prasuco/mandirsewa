@@ -17,6 +17,6 @@
 
 <body>
 
-    <header class="text-3xl bg-amber-400">
-        MandirSewa
+    <header class=" flex flex-row text-3xl bg-blue-400 ">
+        Header
     </header>
