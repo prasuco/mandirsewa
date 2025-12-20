@@ -1,17 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+$title = "Homepage";
+include 'components/header.php';
+?>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home| MandirSewa</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head>
+<h1 class="text-3xl bg-blue-300">
+    Hello world
+</h1>
 
-<body>
-    <h1 class="text-3xl">
-        Hello world
-    </h1>
-</body>
-
-</html>
+<?php
+include "components/footer.php";
+?>

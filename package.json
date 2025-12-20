@@ -1,0 +1,11 @@
+{
+  "name": "mandirsewa",
+  "scripts": {
+    "dev": "npx tailwindcss -i ./public/input.css -o ./public/css/app.css --watch",
+    "build": "npx tailwindcss -i ./public/input.css -o ./public/css/app.css --minify"
+  },
+  "dependencies": {
+    "init": "^0.1.2",
+    "tailwindcss": "^4.1.18"
+  }
+}
