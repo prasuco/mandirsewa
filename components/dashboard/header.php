@@ -13,6 +13,8 @@ $sql = "select * from mandirs where `created_by` =  $uid ";
 $mandirs;
 try {
     $mandirs = mysqli_query($conn, $sql)->fetch_assoc();
+
+    print_r($mandirs);
 } catch (\Throwable $th) {
     $mandirs = NULL;
     $_SESSION['message'] = "Failed Mysql Query, '$sql ";
@@ -44,7 +46,7 @@ try {
 
 
     <!-- TOP BAR -->
-    <header class="sticky top-0 z-50 bg-white border-b border-gray-200">
+    <header class="sticky top-0 z-1 bg-white border-b border-gray-200">
         <div class="h-14 px-4 sm:px-6 flex items-center justify-between">
 
             <div class="flex items-center gap-3">
@@ -77,12 +79,13 @@ try {
 
         <!-- Overlay (mobile only) -->
         <div id="sidebarOverlay"
-            class="fixed inset-0 bg-black/30 z-40 hidden sm:hidden">
+            class="fixed inset-0 bg-black/30 z-1 hidden sm:hidden"
+            >
         </div>
 
         <!-- SIDEBAR -->
         <aside id="sidebar"
-            class="fixed sm:sticky top-14 left-0 z-40
+            class="fixed sm:sticky top-14 left-0 z-1
          w-64 h-screen bg-white border-r border-gray-200
          px-4 py-6
          transform -translate-x-full sm:translate-x-0

@@ -1,11 +1,8 @@
 @import "tailwindcss";
-@plugin "@tailwindcss/forms" ;
 
 @theme {
   --color-primary: oklch(68% 0.18 45);
-  /* saffron */
   --color-secondary: oklch(72% 0.2 350);
-  /* rose */
 }
 
 @layer base {
@@ -14,10 +11,104 @@
     scroll-behavior: smooth;
   }
 
-}
-
-@layer components {
   details summary::-webkit-details-marker {
     display: none;
   }
 }
+
+
+@utility form-input {
+  @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 transition focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary;
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition focus:outline-none focus:ring-2 focus:ring-offset-2;
+}
+
+
+@layer components {
+
+  /* ---------- FORM STRUCTURE ---------- */
+
+  .form-group {
+    @apply space-y-1;
+  }
+
+  .form-label {
+    @apply block text-xs font-medium text-gray-600;
+  }
+
+  .form-help {
+    @apply text-xs text-gray-400;
+  }
+
+  .form-error {
+    @apply text-xs text-rose-500;
+  }
+
+  /* ---------- INPUTS ---------- */
+
+  .form-input {
+    @apply w-full rounded-md border border-gray-300 bg-white px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 transition focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary;
+  }
+
+  .form-input:hover {
+    @apply border-gray-400;
+  }
+
+  .form-input:disabled {
+    @apply bg-gray-100 text-gray-400 cursor-not-allowed;
+  }
+
+  .form-input.error {
+    @apply border-rose-400 focus:ring-rose-400;
+  }
+
+  /* ---------- SELECT ---------- */
+
+  .form-select {
+    @apply form-input appearance-none pr-9 bg-no-repeat bg-[length:16px] bg-[position:right_0.75rem_center];
+  }
+
+  /* ---------- TEXTAREA ---------- */
+
+  .form-textarea {
+    @apply form-input min-h-[96px] resize-y;
+  }
+
+  /* ---------- CHECKBOX / RADIO ---------- */
+
+  .form-check {
+    @apply h-4 w-4 rounded border border-gray-300 text-primary focus:ring-primary transition;
+  }
+
+  /* ---------- BUTTONS ---------- */
+
+
+  .btn-primary {
+    @apply btn bg-primary text-white hover:opacity-90 focus:ring-primary;
+  }
+
+  .btn-secondary {
+    @apply btn border border-gray-300 text-gray-700 hover:bg-gray-50 focus:ring-gray-300;
+  }
+
+  .btn-ghost {
+    @apply btn text-gray-600 hover:bg-gray-100 focus:ring-gray-300;
+  }
+
+  .btn-danger {
+    @apply btn bg-rose-500 text-white hover:bg-rose-600 focus:ring-rose-400;
+  }
+
+  /* ---------- BUTTON SIZES ---------- */
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .btn-lg {
+    @apply px-5 py-3 text-base;
+  }
+}
+
