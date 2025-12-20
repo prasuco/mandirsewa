@@ -11,8 +11,7 @@ include '../components/header.php';
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Om_symbol.svg"
         class="w-24 h-24 rounded-2xl bg-white p-4 shadow-md"
-        alt="Mandir Logo"
-      />
+        alt="Mandir Logo" />
 
       <div class="flex-1 space-y-2">
         <div class="flex items-center gap-2">
@@ -69,12 +68,12 @@ include '../components/header.php';
         Mandir Images
       </h2>
       <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500" alt="Mandir Image 1" />
-        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500" alt="Mandir Image 2" />
-        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500" alt="Mandir Image 3" />
-        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500" alt="Mandir Image 4" />
-        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500" alt="Mandir Image 5" />
-        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500" alt="Mandir Image 6" />
+        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500?t=<?= rand(0, 1000) ?>" alt="Mandir Image 1" />
+        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500?t=<?= rand(0, 1000) ?>" alt="Mandir Image 2" />
+        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500?t=<?= rand(0, 1000) ?>" alt="Mandir Image 3" />
+        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500?t=<?= rand(0, 1000) ?>" alt="Mandir Image 4" />
+        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500?t=<?= rand(0, 1000) ?>" alt="Mandir Image 5" />
+        <img class="w-full h-36 object-cover rounded-2xl shadow" src="https://picsum.photos/500?t=<?= rand(0, 1000) ?>" alt="Mandir Image 6" />
       </div>
     </div>
 
@@ -83,7 +82,7 @@ include '../components/header.php';
       <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-3">
         Location
       </h2>
-      <div class="h-[260px] rounded-2xl overflow-hidden shadow-md">
+      <div class="h-65 rounded-2xl overflow-hidden shadow-md">
         <iframe
           class="w-full h-full rounded-2xl"
           src="https://maps.google.com/maps?q=Lalitpur&t=&z=14&ie=UTF8&iwloc=&output=embed"
@@ -135,8 +134,7 @@ include '../components/header.php';
         <input
           type="number"
           placeholder="Amount (NPR)"
-          class="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm focus:ring-2 focus:ring-orange-300 focus:outline-none"
-        />
+          class="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm focus:ring-2 focus:ring-orange-300 focus:outline-none" />
 
         <select class="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm focus:ring-2 focus:ring-rose-300 focus:outline-none">
           <option>Select Payment</option>
