@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Description -->
             <p class="text-sm text-gray-500 mb-6 leading-relaxed">
-                You don’t have any mandirs created yet.
+                You don't have any mandirs created yet.
                 Create one to start managing donations, announcements and content.
             </p>
 
@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         id="createMandirForm"
         method="post"
         enctype="multipart/form-data"
-        class="modal bg-white rounded-lg p-6 space-y-4">
+        class="modal bg-white w-full! max-w-2xl! rounded-lg p-6 space-y-4">
 
         <!-- Header -->
         <div>
@@ -216,10 +216,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- ACTIONS -->
         <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
-            <button type="button" rel="modal:close" class="btn-secondary">
-                Cancel
-            </button>
-
             <button type="submit" class="btn-primary">
                 Create Mandir
             </button>

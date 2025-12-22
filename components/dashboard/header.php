@@ -81,7 +81,7 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
         </div>
 
         <!-- SIDEBAR -->
-        <aside  id="sidebar"
+        <aside id="sidebar"
             class="fixed sm:sticky top-14 left-0 z-50
          w-64 h-screen bg-white border-r border-gray-200
          px-4 py-6
@@ -93,15 +93,15 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
             <!-- Mandir Switcher -->
             <div class="mb-6">
                 <label class="text-xs text-gray-500 block mb-1">Current Mandir</label>
-
-
                 <select id="mandirSelector"
                     class="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-rose-400">
                     <option value="">Select A Mandir</option>
                     <?php foreach ($mandirs as $mandir) { ?>
                         <option
                             <?= ($mandir['id'] == $current_mandir) ? 'selected' : '' ?>
-                            value="<?= $mandir['id'] ?>"><?= $mandir['name'] ?> </option>
+                            value="<?= $mandir['id'] ?>">
+                            <?= $mandir['name'] ?>
+                        </option>
                     <?php } ?>
                 </select>
 
