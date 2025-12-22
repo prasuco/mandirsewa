@@ -25,10 +25,10 @@ require_once __DIR__ . "/../config/db.php";
 
                 <div class="flex items-center gap-4">
                     <img
-                        src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Om_symbol.svg"
-                        class="w-10 h-10 rounded-xl"
+                        src="/mandirsewa/public/images/logo.webp"
+                        class="w-14 h-14 rounded-xl"
                         alt="Mandir Logo" />
-                    <span class="font-semibold text-base">Mandir Sewa</span>
+                    <!-- <span class="font-semibold text-base">Mandir Sewa</span> -->
                 </div>
 
                 <a
