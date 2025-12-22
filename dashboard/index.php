@@ -90,18 +90,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </p>
 
 
-            <a
-                href="#createMandirForm" rel="modal:open"
+            <button
+
+                id="createMandir"
                 class="btn-primary">
                 Create Mandir
-            </a>
+            </button>
 
         </div>
     </div>
 
     <!-- Modal -->
-    <form id="createMandirForm" method="post"
-        class="z-100! modal bg-white rounded-lg p-6  w-full space-y-6">
+    <form
+        id="createMandirForm"
+        method="post"
+        enctype="multipart/form-data"
+        class="modal bg-white rounded-lg p-6 space-y-4">
 
         <!-- Header -->
         <div>
@@ -228,13 +232,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 <script>
-    // $("#createMandir").click(() => {
-    //     $("#createMandirForm").modal({
-    //         fadeDuration: 100,
-    //     });
+    $("#createMandir").click(() => {
+        $('#sidebar').css('z-index', 'unset')
+        $('#topbar').css('z-index', 'unset')
 
-
-    // })
+        $("#createMandirForm").modal({
+            fadeDuration: 100,
+        });
+    })
 </script>
 </div>
 <?php include "../components/dashboard/footer.php" ?>

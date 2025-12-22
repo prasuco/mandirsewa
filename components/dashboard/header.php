@@ -44,7 +44,7 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
 
 
     <!-- TOP BAR -->
-    <header class="sticky top-0 z-40 bg-white border-b border-gray-200">
+    <header id="topbar" class="sticky top-0 z-40 bg-white border-b border-gray-200">
         <div class="h-14 px-4 sm:px-6 flex items-center justify-between">
 
             <div class="flex items-center gap-3">
@@ -81,7 +81,7 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
         </div>
 
         <!-- SIDEBAR -->
-        <aside id="sidebar"
+        <aside  id="sidebar"
             class="fixed sm:sticky top-14 left-0 z-50
          w-64 h-screen bg-white border-r border-gray-200
          px-4 py-6
