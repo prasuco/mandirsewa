@@ -15,20 +15,10 @@ try {
     $mandirs = mysqli_query($conn, $sql);
     $mandirs = mysqli_fetch_all($mandirs, MYSQLI_ASSOC);
 } catch (\Throwable $th) {
-    // $mandirs = NULL;
     $_SESSION['message'] = "Failed Mysql Query, '$sql ";
 }
 
-
-
-
 $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
-
-// 
-
-
-
-
 
 ?>
 
