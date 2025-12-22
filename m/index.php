@@ -1,13 +1,25 @@
 <?php
 $title = "Mandir Page";
 include '../components/header.php';
+
+$mandir_slug = $_GET['mandir'];
+
+$sql = "SELECT * FROM mandirs WHERE slug = '$mandir_slug' LIMIT 1 ";
+
+$mandir = mysqli_query($conn, $sql)->fetch_assoc();
+
+if (!$mandir) {
+  die(404);
+}
+
+print_r($mandir);
+
 ?>
 
 
 <section class="">
   <div class="max-w-7xl mx-auto px-6 py-12">
     <div class="flex flex-col md:flex-row md:items-center gap-6">
-
       <img
         src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Om_symbol.svg"
         class="w-24 h-24 rounded-2xl bg-white p-4 shadow-md"
@@ -15,14 +27,13 @@ include '../components/header.php';
 
       <div class="flex-1 space-y-2">
         <div class="flex items-center gap-2">
-          <h1 class="text-3xl font-semibold">Shri Krishna Mandir</h1>
+          <h1 class="text-3xl font-semibold"> <?= $mandir['name'] ?> </h1>
           <span class="text-xs px-3 py-1 rounded-full bg-green-100 text-green-700 font-medium">
             Verified
           </span>
         </div>
         <p class="text-sm text-neutral-700 max-w-2xl">
-          A historic Vaishnav mandir serving devotees through daily pooja,
-          bhajan-kirtan, and community seva.
+          <?= $mandir['description'] ?>
         </p>
         <div class="flex gap-6 text-sm text-neutral-600 mt-2">
           <span>📍 Lalitpur</span>
@@ -56,9 +67,7 @@ include '../components/header.php';
         About the Mandir
       </h2>
       <p class="text-sm leading-relaxed text-neutral-700">
-        Established over a century ago, Shri Krishna Mandir has been a spiritual
-        center for generations. The mandir conducts daily rituals, seasonal
-        festivals, and charitable activities with full transparency and devotion.
+        <?= $mandir['about_content'] ?>
       </p>
     </div>
 
@@ -85,7 +94,7 @@ include '../components/header.php';
       <div class="h-65 rounded-2xl overflow-hidden shadow-md">
         <iframe
           class="w-full h-full rounded-2xl"
-          src="https://maps.google.com/maps?q=Lalitpur&t=&z=14&ie=UTF8&iwloc=&output=embed"
+          src="https://maps.google.com/maps?q=<?= $mandir['address_lat'] ?>,<?= $mandir['address_long'] ?>&ie=UTF8&iwloc=&output=embed"
           loading="lazy">
         </iframe>
       </div>
@@ -169,15 +178,6 @@ include '../components/header.php';
   </aside>
 
 </main>
-
-<!-- FOOTER -->
-<footer class="bg-white">
-  <div class="max-w-7xl mx-auto px-6 py-6 text-xs text-neutral-500 flex justify-between">
-    <span>© 2025 Mandir Sewa</span>
-    <span>Built for Devotion</span>
-  </div>
-</footer>
-
 <?php
 include "../components/footer.php";
 ?>

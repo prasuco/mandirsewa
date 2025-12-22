@@ -55,7 +55,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             ('$name', '$slug', '$description', '$about_content', '$address_lat', '$address_long', '$primary_contact', '$secondary_contact', '$website', '$facebook', '$youtube', '$cover_image', '$logo', '$uid')";
 
     if (mysqli_query($conn, $sql)) {
+        $sql = "select * from mandirs where `created_by` =  $uid ";
+        $mandirs = mysqli_query($conn, $sql)->fetch_all();
 
+        $_SESSION['message'] = "Mandir Created Successfully";
     } else {
         echo "<div class='text-red-600 font-medium'>Error: " . mysqli_error($conn) . "</div>";
     }
@@ -98,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- Modal -->
     <form id="createMandirForm" method="post"
-        class="!z-100 modal bg-white rounded-lg p-6  w-full space-y-6">
+        class="z-100! modal bg-white rounded-lg p-6  w-full space-y-6">
 
         <!-- Header -->
         <div>
