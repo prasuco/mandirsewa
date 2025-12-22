@@ -21,7 +21,7 @@ print_r($mandir);
   <div class="max-w-7xl mx-auto px-6 py-12">
     <div class="flex flex-col md:flex-row md:items-center gap-6">
       <img
-        src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Om_symbol.svg"
+        src="/mandirsewa/<?= $mandir['logo'] ?? "default_mandir_logo.webp" ?>"
         class="w-24 h-24 rounded-2xl bg-white p-4 shadow-md"
         alt="Mandir Logo" />
 

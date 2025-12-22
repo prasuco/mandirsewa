@@ -5,7 +5,6 @@ include "../components/dashboard/header.php";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // ---------- Sanitize input ----------
     $name = mysqli_real_escape_string($conn, $_POST['name']);
     $slug = mysqli_real_escape_string($conn, $_POST['slug']);
     $description = mysqli_real_escape_string($conn, $_POST['description']);
@@ -18,26 +17,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $facebook = mysqli_real_escape_string($conn, $_POST['facebook']);
     $youtube = mysqli_real_escape_string($conn, $_POST['youtube']);
 
-    // ---------- Handle file uploads ----------
     $uploadDir = __DIR__ . '/../uploads/';
 
-    // Ensure uploads directory exists
+    // checking if directory exists
     if (!is_dir($uploadDir)) {
         mkdir($uploadDir, 0755, true);
     }
 
-    // Cover image
-    $cover_image = null;
-    if (!empty($_FILES['cover_image']['name'])) {
-        $cover_image_name = time() . '_' . basename($_FILES['cover_image']['name']);
-        $cover_image_path = $uploadDir . $cover_image_name;
-
-        if (move_uploaded_file($_FILES['cover_image']['tmp_name'], $cover_image_path)) {
-            $cover_image = 'uploads/' . $cover_image_name;
-        }
-    }
-
-    // Logo
     $logo = null;
     if (!empty($_FILES['logo']['name'])) {
         $logo_name = time() . '_' . basename($_FILES['logo']['name']);
@@ -48,11 +34,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    // ---------- Insert into database ----------
-    $sql = "INSERT INTO mandirs 
-            (name, slug, description, about_content, address_lat, address_long, primary_contact, secondary_contact, website, facebook, youtube, cover_image, logo, created_by)
+    $sql = "INSERT INTO mandirs
+            (name, slug, description, about_content, address_lat, address_long, primary_contact, secondary_contact, website, facebook, youtube, logo, created_by)
             VALUES 
-            ('$name', '$slug', '$description', '$about_content', '$address_lat', '$address_long', '$primary_contact', '$secondary_contact', '$website', '$facebook', '$youtube', '$cover_image', '$logo', '$uid')";
+            ('$name', '$slug', '$description', '$about_content', '$address_lat', '$address_long', '$primary_contact', '$secondary_contact', '$website', '$facebook', '$youtube','$logo', '$uid')";
 
     if (mysqli_query($conn, $sql)) {
         $sql = "select * from mandirs where `created_by` =  $uid ";
@@ -60,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $_SESSION['message'] = "Mandir Created Successfully";
     } else {
-        echo "<div class='text-red-600 font-medium'>Error: " . mysqli_error($conn) . "</div>";
+        $_SESSION['message'] = "Failed Creating mandir";
     }
 }
 
@@ -69,29 +54,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 ?>
 
 <?php if (!$mandirs) { ?>
-
     <div class="min-h-[60vh] flex items-center justify-center px-4">
-        <div class="max-w-md w-full text-center">
-
-
+        <div class="max-w-lg w-full text-center">
             <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-rose-50">
                 <i class="fas fa-warning text-rose-400 text-lg"></i>
             </div>
-
-
             <h2 class="text-lg font-semibold text-gray-800 mb-2">
                 No mandir found
             </h2>
 
-            <!-- Description -->
             <p class="text-sm text-gray-500 mb-6 leading-relaxed">
                 You don't have any mandirs created yet.
                 Create one to start managing donations, announcements and content.
             </p>
 
-
             <button
-
                 id="createMandir"
                 class="btn-primary">
                 Create Mandir
@@ -201,12 +178,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 Media
             </h4>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="form-group">
-                    <label class="form-label">Cover image</label>
-                    <input type="file" name="cover_image" class="form-input">
-                </div>
-
+            <div class="grid grid-cols-1 gap-4">
                 <div class="form-group">
                     <label class="form-label">Logo</label>
                     <input type="file" name="logo" class="form-input">
