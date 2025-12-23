@@ -32,12 +32,12 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
         <?= $title; ?> | Dashboard
     </title>
     <link rel="stylesheet" href="/mandirsewa/public/css/app.css?<?= time() ?>">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/mandirsewa/public/css/fontawesome.all.min.css" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/mandirsewa/public/js/jquery.min.js"></script>
     <!-- jQuery Modal -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.2/jquery.modal.min.css" />
+    <script src="/mandirsewa/public/js/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="/mandirsewa/public/css/jquery.modal.min.css" />
 </head>
 
 <body class="bg-gray-50 text-gray-800 ">
@@ -120,11 +120,14 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
             </div>
 
             <!-- Navigation -->
+
             <nav class="space-y-1 text-sm">
-                <a href="#" class="block px-3 py-2 rounded-md bg-gray-100 font-medium">Home</a>
-                <a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-100">Campaigns</a>
-                <a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-100">Donations</a>
-                <a href="#" class="block px-3 py-2 rounded-md hover:bg-gray-100">FAQs</a>
+                <a href="" class="block px-3 py-2 rounded-md bg-gray-100 font-medium">Home</a>
+                <?php if ($current_mandir) { ?>
+                    <a href="campaigns.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">Campaigns</a>
+                    <a href="donations.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">Donations</a>
+                    <a href="faqs.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">FAQs</a>
+                <?php  } ?>
             </nav>
 
         </aside>

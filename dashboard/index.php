@@ -132,7 +132,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label class="form-label">Latitude</label>
                     <input name="address_lat" class="form-input" placeholder="27.7172">
                 </div>
-
                 <div class="form-group">
                     <label class="form-label">Longitude</label>
                     <input name="address_long" class="form-input" placeholder="85.3240">
@@ -195,8 +194,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     </form>
 
-
 <?php } ?>
+
+<!-- if not current mandir, show a mandir selector modal -->
+<?php if ($mandirs && !$current_mandir) { ?>
+    <form id="selectMandirModal"
+        class="modal bg-white w-full! max-w-2xl! rounded-lg p-6 space-y-4">
+        <h3 class="text-base font-semibold text-gray-800">
+            Please Select a Mandir
+        </h3>
+
+        <div class="mandirs flex flex-row items-center gap-2">
+
+            <?php foreach ($mandirs as $mandir) { ?>
+                <div class="w-full gap-2 p-2 flex flex-col shadow rounded-md items-center mandir  ">
+                    <img class="w-20 h-20 rounded-full" src="/mandirsewa/<?= $mandir['logo'] ?>" alt="">
+                    <p> <?= $mandir['name'] ?> </p>
+                    <a class="btn-primary" href="/mandirsewa/dashboard/select-mandir.php?id=<?= $mandir['id'] ?>">
+                        Select Mandir
+                    </a>
+                </div>
+
+            <?php } ?>
+
+
+        </div>
+    </form>
+<?php  } ?>
 
 
 <script>
@@ -208,6 +232,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             fadeDuration: 100,
         });
     })
+
+
+    $("#selectMandirModal").modal({
+        fadeDuration: 100,
+        escapeClose: false,
+        clickClose: false,
+        showClose: false
+    });
 </script>
 </div>
 <?php include "../components/dashboard/footer.php" ?>
