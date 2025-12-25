@@ -12,8 +12,7 @@ $sql = "select * from mandirs where `created_by` = $uid ";
 
 $mandirs;
 try {
-    $mandirs = mysqli_query($conn, $sql);
-    $mandirs = mysqli_fetch_all($mandirs, MYSQLI_ASSOC);
+    $mandirs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 } catch (\Throwable $th) {
     $_SESSION['message'] = "Failed Mysql Query, '$sql ";
 }
@@ -33,7 +32,7 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
     </title>
     <link rel="stylesheet" href="/mandirsewa/public/css/app.css?<?= time() ?>">
     <link rel="stylesheet" href="/mandirsewa/public/css/fontawesome.all.min.css" />
-
+<!-- jQuery -->
     <script src="/mandirsewa/public/js/jquery.min.js"></script>
     <!-- jQuery Modal -->
     <script src="/mandirsewa/public/js/jquery.modal.min.js"></script>
