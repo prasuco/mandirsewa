@@ -32,7 +32,7 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
     </title>
     <link rel="stylesheet" href="/mandirsewa/public/css/app.css?<?= time() ?>">
     <link rel="stylesheet" href="/mandirsewa/public/css/fontawesome.all.min.css" />
-<!-- jQuery -->
+    <!-- jQuery -->
     <script src="/mandirsewa/public/js/jquery.min.js"></script>
     <!-- jQuery Modal -->
     <script src="/mandirsewa/public/js/jquery.modal.min.js"></script>
@@ -94,7 +94,7 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
                 <label class="text-xs text-gray-500 block mb-1">Current Mandir</label>
                 <select id="mandirSelector"
                     class="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-rose-400">
-                    <option value="">Select A Mandir</option>
+                    <option value="" selected disabled>Select A Mandir</option>
                     <?php foreach ($mandirs as $mandir) { ?>
                         <option
                             <?= ($mandir['id'] == $current_mandir) ? 'selected' : '' ?>
@@ -107,11 +107,9 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
                 <script>
                     $('#mandirSelector').change((value) => {
                         const mandirId = value.target.value
-
                         if (mandirId) {
                             window.location.href = `/mandirsewa/dashboard/select-mandir.php?id=${mandirId}`;
                         }
-
                     })
                 </script>
 
