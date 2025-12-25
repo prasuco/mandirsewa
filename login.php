@@ -1,6 +1,12 @@
 <?php
+
 $title = "Login";
 include  'components/header.php';
+include  'utils/utils.php';
+redirect_if_authenticated();
+
+
+
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 

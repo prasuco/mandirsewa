@@ -26,7 +26,7 @@ include "../components/dashboard/header.php";
 
 <?php } ?>
 
-
+<!-- here comes create mandir form -->
 <?php require "../components/dashboard/create-mandir-form.php" ?>
 
 
