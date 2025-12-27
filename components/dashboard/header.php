@@ -119,9 +119,9 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
             <!-- Navigation -->
 
             <nav class="space-y-1 text-sm">
-                <a href="" class="block px-3 py-2 rounded-md bg-gray-100 font-medium">Home</a>
+                <a href="/mandirsewa/dashboard" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/") ?> font-medium">Home</a>
                 <?php if ($current_mandir) { ?>
-                    <a href="campaigns.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">Campaigns</a>
+                    <a href="campaigns.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "campaigns.php") ?>">Campaigns</a>
                     <a href="donations.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">Donations</a>
                     <a href="faqs.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">FAQs</a>
                 <?php  } ?>
