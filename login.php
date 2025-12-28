@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="w-full max-w-md p-8">
 
       <h2 class="text-3xl font-bold text-orange-800 mb-6 text-center">
-        WELCOME TO MANDIR SEWA
+        LOGIN HERE
       </h2>
       <form method="post" class="space-y-4">
         <div>
@@ -75,7 +75,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
 
 </div>
-
-<?php
-include  'components/footer.php';
-?>
