@@ -19,6 +19,10 @@ require_once __DIR__ . "/../config/db.php";
 
 </head>
 
+<style>
+
+
+</style>
 <body>
     <div class="bg-linear-to-b from-orange-50 to-white">
         <div class="max-w-7xl sticky  top-4 mx-auto mb-2 px-4">
