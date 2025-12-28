@@ -41,6 +41,7 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
 
 <body class="bg-gray-50 text-gray-800 ">
 
+    <?php include __DIR__ . "/../../components/dashboard/mandir-selector-modal.php"; ?>
 
     <!-- TOP BAR -->
     <header id="topbar" class="sticky top-0 z-40 bg-white border-b border-gray-200">
