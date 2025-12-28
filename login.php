@@ -1,41 +1,61 @@
-<?php
-$title = "Login";
-include  'components/header.php';
+<!DOCTYPE html>
+<html lang="en">
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+<head>
+  <meta charset="UTF-8">
+  <title>Login Page</title>
 
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-    $sql = "SELECT * from users where email = '" . $email . "' LIMIT 1";
+<body class="bg-gray-100">
 
-    $result = mysqli_query($conn, $sql);
+  <div class="min-h-screen flex flex-col md:flex-row">
 
-    if (mysqli_num_rows($result)) {
-        $user = mysqli_fetch_assoc($result);
+    <!-- LEFT SIDE (IMAGE) -->
+    <div class="md:w-1/2 w-full h-64 md:h-auto">
+      <img src="/mandirsewa/login_hero.jpg" alt="Login Image" class="w-full h-full object-cover" />
+    </div>
 
-        if (password_verify($password, $user['password'])) {
+    <!-- RIGHT SIDE (LOGIN FORM) -->
+    <div class="md:w-1/2 w-full flex items-center justify-center bg-white">
+      <div class="w-full max-w-md p-8">
 
-            $_SESSION['email'] = $user['email'];
-            $_SESSION['id'] = $user['id'];
-            $_SESSION['message'] = "Logged in Successfully";
-            header("Location: /mandirsewa/dashboard");
-        } else {
-            $_SESSION['message'] = "password doesnot match";
-        }
-    }
-}
+        <h2 class="text-3xl font-bold text-orange-800 mb-6 text-center">
+          WELCOME TO MANDIR SEWA
+        </h2>
 
-?>
+        <form class="space-y-4">
 
-<form action="" method="post">
-    EMAIL : <input type="email" name="email">
-    Password : <input type="text" name="password">
+          <div>
+            <label class="block text-gray-600 mb-1">Email</label>
+            <input type="email" placeholder="Enter your email"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
 
-    <button type="submit">
-        Login
-    </button>
-</form>
-<?php
-include "components/footer.php";
-?>
+          <div>
+            <label class="block text-gray-600 mb-1">Password</label>
+            <input type="password" placeholder="Enter your password"
+              class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
+          </div>
+
+          <button type="submit" class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-red-700 transition">
+            Login
+          </button>
+
+        </form>
+
+        <p class="text-center text-sm text-gray-500 mt-4">
+          Don’t have an account?
+          <a href="#" class="text-red-600 hover:underline">Sign up</a>
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+</html>
