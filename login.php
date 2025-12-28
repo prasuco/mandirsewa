@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <title>Login Page</title>
-
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-
-<body class="bg-gray-100">
-
+<?php
+$title = "Login";
+include  'components/header.php';
+include  'utils/utils.php';
+redirect_if_authenticated();
+?>
   <div class="min-h-screen flex flex-col md:flex-row">
 
     <!-- LEFT SIDE (IMAGE) -->
@@ -55,7 +49,3 @@
     </div>
 
   </div>
-
-</body>
-
-</html>

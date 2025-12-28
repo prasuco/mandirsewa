@@ -13,3 +13,19 @@ function redirect_if_authenticated()
         header("Location: /mandirsewa/dashboard");
     }
 }
+function redirect_if_no_mandir_selected()
+{
+    if (isset($_SESSION['current_mandir'])) {
+        header("Location: /mandirsewa/dashboard");
+    }
+}
+
+
+function get_active_class($request_url, $link)
+{
+    if (str_contains($request_url, $link)) {
+        return "bg-gray-200";
+    } else {
+        return "hover:bg-gray-100";
+    }
+}

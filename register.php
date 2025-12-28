@@ -1,6 +1,9 @@
 <?php
 $title = "Register your account";
-include  'components/header.php';
+require_once  'components/header.php';
+require_once  'utils/utils.php';
+redirect_if_authenticated();
+
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $name = $_POST['name'];
@@ -24,15 +27,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             $result = mysqli_query($conn, $sql);
 
-            if ($result) {  
+            if ($result) {
                 // echo "Account Created Successfully";
                 $_SESSION['message'] = "Account Created Successfully";
 
                 header("Location: /mandirsewa/login.php");
             }
         } else {
-
-            echo "Confirm password doesnot match";
+            $_SESSION['message'] = "Confirm password doesnot match";
         }
     }
 }
