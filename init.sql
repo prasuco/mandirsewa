@@ -122,8 +122,8 @@ CREATE TABLE faqs (
   id INT AUTO_INCREMENT PRIMARY KEY,
   question VARCHAR(255),
   answer VARCHAR(255),
-  mandir_id INT,
+  created_by_mandir INT,
 
   CONSTRAINT fk_faqs_mandir
-    FOREIGN KEY (mandir_id) REFERENCES mandirs(id)
+    FOREIGN KEY (created_by_mandir) REFERENCES mandirs(id)
 );
