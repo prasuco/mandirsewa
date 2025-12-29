@@ -17,8 +17,12 @@ $mandir_id = $mandir['id'];
 $sql = "SELECT * FROM `campaigns` WHERE `created_by_mandir`  = $mandir_id";
 $campaigns = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
+$sql = "SELECT * FROM `faqs` WHERE `created_by_mandir`  = $mandir_id";
+$faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
+
 print_r($mandir);
 print_r($campaigns);
+print_r($faqs);
 
 ?>
 
@@ -106,32 +110,32 @@ print_r($campaigns);
       </div>
     </div>
 
-    <!-- FAQ -->
-    <div class="space-y-3">
-      <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-4">
-        Frequently Asked Questions
-      </h2>
 
-      <details class="group bg-white rounded-2xl px-5 py-4 shadow-sm">
-        <summary class="flex justify-between cursor-pointer text-sm font-medium">
-          Is online donation secure?
-          <span class="group-open:rotate-180 transition">⌄</span>
-        </summary>
-        <p class="mt-2 text-sm text-neutral-600">
-          Yes. Donations are processed via verified payment partners.
-        </p>
-      </details>
 
-      <details class="group bg-white rounded-2xl px-5 py-4 shadow-sm">
-        <summary class="flex justify-between cursor-pointer text-sm font-medium">
-          Will I receive a receipt?
-          <span class="group-open:rotate-180 transition">⌄</span>
-        </summary>
-        <p class="mt-2 text-sm text-neutral-600">
-          A digital receipt is sent immediately after payment.
-        </p>
-      </details>
-    </div>
+    <?php if (count($faqs) > 0) { ?>
+
+      <div class="space-y-3">
+        <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-500 mb-4">
+          Frequently Asked Questions
+        </h2>
+
+        <?php foreach ($faqs as $faq) { ?>
+
+          <details class="group bg-white rounded-2xl px-5 py-4 shadow-sm">
+            <summary class="flex justify-between cursor-pointer text-sm font-medium">
+              <?= $faq['question'] ?>
+              <span class="group-open:rotate-180 transition">⌄</span>
+            </summary>
+            <p class="mt-2 text-sm text-neutral-600">
+              <?= $faq['answer'] ?>
+            </p>
+          </details>
+        <?php } ?>
+
+      </div>
+
+
+    <?php } ?>
 
   </section>
 
@@ -159,10 +163,10 @@ print_r($campaigns);
         </select>
 
         <button
-          class="w-full py-2 rounded-xl bg-gradient-to-r from-orange-500 to-rose-500 text-white text-sm font-medium shadow-sm">
+          class="w-full py-2 rounded-xl bg-linear-to-r from-orange-500 to-rose-500 text-white text-sm font-medium shadow-sm">
           Donate Now
         </button>
-      </form>
+      </form> 
     </div>
 
     <!-- CONTACT -->
