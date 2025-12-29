@@ -3,25 +3,26 @@ $title = "Home";
 include "../components/dashboard/header.php";
 
 
-$sql = "select * from campaigns where created_by_mandir = $current_mandir";
+$sql = "select * from faqs where created_by_mandir = $current_mandir";
 
-$campaigns = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
+$faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
+
 ?>
 
 <link rel="stylesheet" href="https://cdn.datatables.net/2.3.6/css/dataTables.dataTables.min.css">
 <script src="https://cdn.datatables.net/2.3.6/js/dataTables.min.js"></script>
 
-<!-- here comes create mandir form -->
-<?php require "../components/dashboard/create-campaign-form.php" ?>
+<!-- here comes create faq form -->
+<?php require "../components/dashboard/create-faq-form.php" ?>
 <!-- Header -->
 <div class="flex items-center justify-between   px-4 py-3">
     <h2 class="text-xl font-semibold text-gray-800">
-        Campaigns
+        FAQs
     </h2>
     <button
-        id="createCampaign"
+        id="createFAQ"
         class="btn-primary">
-        Create Campaign
+        Create FAQ
     </button>
 </div>
 
@@ -36,17 +37,12 @@ $campaigns = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
                 </th>
                 <th class="p-4">
                     <p class="text-sm leading-none font-normal">
-                        Campaign Name
+                        Question
                     </p>
                 </th>
                 <th class="p-4">
                     <p class="text-sm leading-none font-normal">
-                        Target Amount
-                    </p>
-                </th>
-                <th class="p-4">
-                    <p class="text-sm leading-none font-normal">
-                        Type
+                        Answer
                     </p>
                 </th>
 
@@ -57,32 +53,30 @@ $campaigns = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
         </thead>
         <tbody>
 
-            <?php foreach ($campaigns as $campaign) {  ?>
+            <?php foreach ($faqs as $faq) {  ?>
                 <tr class="hover:bg-slate-50">
                     <td class="p-4">
                         <p class="text-sm font-bold">
-                            <?= $campaign['id'] ?>
+                            <?= $faq['id'] ?>
                         </p>
                     </td>
                     <td class="p-4">
                         <p class="text-sm">
-                            <?= $campaign['name'] ?>
+                            <?= $faq['question'] ?>
                         </p>
                     </td>
                     <td class="p-4">
                         <p class="text-sm">
-                            <?= $campaign['target_amount'] ?>
-                        </p>
-                    </td>
-                    <td class="p-4">
-                        <p class="text-sm capitalize">
-                            <?= $campaign['type'] ?>
+                            <?= $faq['answer'] ?>
                         </p>
                     </td>
 
                     <td class="p-4">
                         <a href="" class="text-sm font-semibold ">
                             Edit
+                        </a>
+                        <a href="" class="text-sm font-semibold ">
+                            Delete
                         </a>
                     </td>
                 </tr>
@@ -98,12 +92,12 @@ $campaigns = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
 
 <script>
-    $("#createCampaign").click(() => {
+    $("#createFAQ").click(() => {
         console.log("here")
         $('#sidebar').css('z-index', 'unset')
         $('#topbar').css('z-index', 'unset')
 
-        $("#createCampaignForm").modal({
+        $("#createFAQForm").modal({
             fadeDuration: 100,
         });
     })

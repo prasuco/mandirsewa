@@ -19,6 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] = "POST") {
         $_SESSION['message'] = "Campaign Created Successfully";
         header("Location: /mandirsewa/dashboard/campaigns.php");
     } else {
-        $_SESSION['message'] = "Campaign Couldnot be createds";
+        $_SESSION['message'] = "Campaign Couldnot be created";
     }
 }
