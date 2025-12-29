@@ -12,7 +12,13 @@ if (!$mandir) {
   die(404);
 }
 
+$mandir_id = $mandir['id'];
+
+$sql = "SELECT * FROM `campaigns` WHERE `created_by_mandir`  = $mandir_id";
+$campaigns = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
+
 print_r($mandir);
+print_r($campaigns);
 
 ?>
 
@@ -43,12 +49,12 @@ print_r($mandir);
       </div>
 
       <div class="flex gap-3 mt-4 md:mt-0">
-        <button class="px-5 py-2 rounded-lg bg-orange-500 text-white text-sm shadow">
-          Donate
-        </button>
-        <button class="px-5 py-2 rounded-lg bg-white text-sm shadow">
-          Contact
-        </button>
+        <a class="text-xs px-3 py-1.5 rounded-md bg-blue-600 text-white shadow-sm">
+          Facebook
+        </a>
+        <a class="text-xs px-3 py-1.5 rounded-md bg-red-500 text-white shadow-sm">
+          <i class="fa-solid fa-globe"></i> YouTube
+        </a>
       </div>
 
     </div>
@@ -165,19 +171,9 @@ print_r($mandir);
       <p class="text-neutral-600">📞 +977 98XXXXXXXX</p>
       <p class="text-neutral-600">📧 info@krishnamandir.org</p>
 
-      <div class="flex gap-2 pt-2">
-        <a class="text-xs px-3 py-1.5 rounded-md bg-blue-600 text-white shadow-sm">
-          Facebook
-        </a>
-        <a class="text-xs px-3 py-1.5 rounded-md bg-red-500 text-white shadow-sm">
-          YouTube
-        </a>
-      </div>
     </div>
 
   </aside>
 
 </main>
-<?php
-include "../components/footer.php";
-?>
+<?php include "../components/footer.php"; ?>
