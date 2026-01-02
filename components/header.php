@@ -18,8 +18,11 @@ require_once __DIR__ . "/../config/db.php";
 </head>
 
 <body>
-    <div class="bg-linear-to-b from-orange-50 to-white">
+    <!-- for background -->
+    <div class="bg-linear-to-b from-orange-100 to-white">
+        
         <div class="max-w-7xl sticky  top-4 mx-auto mb-2 px-4">
+            <!-- for nav bar -->
             <div class="h-16 bg-white shadow rounded-2xl  px-6 flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <a href="/mandirsewa">
@@ -30,6 +33,7 @@ require_once __DIR__ . "/../config/db.php";
                 <?php if (isset($_SESSION['id'])) { ?>
                     <a href="/mandirsewa/dashboard" class="text-sm px-4 py-2 rounded-lg bg-primary text-white shadow-sm">
                         Go to Dashboard
+                        <!-- for icon  -->
                         <i class="fas fa-arrow-right"></i>
                     </a>
                 <?php } else { ?>
