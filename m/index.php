@@ -26,6 +26,17 @@ print_r($faqs);
 
 ?>
 
+<script src="/mandirsewa/public/js/easy-sewa.js"></script>
+
+<script>
+  let easySewa = new EasySewa.EasySewa({
+    environment: "development",
+    failure_url: "http://localhost/mandirsewa/failure",
+    success_url: "http://localhost/mandirsewa/success",
+    product_code: "EPAYTEST",
+    secret: "8gBm/:&EnhH.1/q"
+  })
+</script>
 
 <section class="">
   <div class="max-w-7xl mx-auto px-6 py-12">
@@ -149,9 +160,10 @@ print_r($faqs);
         Your contribution supports daily seva and upkeep.
       </p>
 
-      <form class="mt-4 space-y-3">
+      <div class="mt-4 space-y-3">
         <input
           type="number"
+          id="amount_input"
           placeholder="Amount (NPR)"
           class="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm focus:ring-2 focus:ring-orange-300 focus:outline-none" />
 
@@ -163,21 +175,37 @@ print_r($faqs);
         </select>
 
         <button
+          id="donate_btn"
+
           class="w-full py-2 rounded-xl bg-linear-to-r from-orange-500 to-rose-500 text-white text-sm font-medium shadow-sm">
           Donate Now
         </button>
-      </form> 
-    </div>
+        </form>
+      </div>
 
-    <!-- CONTACT -->
-    <div class="rounded-2xl p-6 bg-white shadow-sm text-sm space-y-2">
-      <h3 class="font-semibold text-sm">Contact</h3>
-      <p class="text-neutral-600">📞 +977 98XXXXXXXX</p>
-      <p class="text-neutral-600">📧 info@krishnamandir.org</p>
+      <!-- CONTACT -->
+      <div class="rounded-2xl p-6 bg-white shadow-sm text-sm space-y-2">
+        <h3 class="font-semibold text-sm">Contact</h3>
+        <p class="text-neutral-600">📞 +977 98XXXXXXXX</p>
+        <p class="text-neutral-600">📧 info@krishnamandir.org</p>
 
-    </div>
+      </div>
 
   </aside>
 
+
 </main>
+
+<script>
+  $("#donate_btn").click(() => {
+    let amount = $("#amount_input").val();
+
+    if (amount) {
+      easySewa.pay({
+        amount: Number(amount),
+        transaction_uuid: Date.now() + "-" + '<?= $mandir['name'] ?>' + " donation"
+      })
+    }
+  })
+</script>
 <?php include "../components/footer.php"; ?>

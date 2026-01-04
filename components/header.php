@@ -14,13 +14,13 @@ require_once __DIR__ . "/../config/db.php";
     </title>
     <link rel="stylesheet" href="/mandirsewa/public/css/app.css?<?= time() ?>">
     <link rel="stylesheet" href="/mandirsewa/public/css/fontawesome.all.min.css" />
-
+    <script src="/mandirsewa/public/js/jquery.min.js"></script>
 </head>
 
 <body>
     <!-- for background -->
     <div class="bg-linear-to-b from-orange-100 to-white">
-        
+
         <div class="max-w-7xl sticky  top-4 mx-auto mb-2 px-4">
             <!-- for nav bar -->
             <div class="h-16 bg-white shadow rounded-2xl  px-6 flex items-center justify-between">
