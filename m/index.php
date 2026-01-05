@@ -20,23 +20,7 @@ $campaigns = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 $sql = "SELECT * FROM `faqs` WHERE `created_by_mandir`  = $mandir_id";
 $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
-print_r($mandir);
-print_r($campaigns);
-print_r($faqs);
-
 ?>
-
-<script src="/mandirsewa/public/js/easy-sewa.js"></script>
-
-<script>
-  let easySewa = new EasySewa.EasySewa({
-    environment: "development",
-    failure_url: "http://localhost/mandirsewa/failure",
-    success_url: "http://localhost/mandirsewa/success",
-    product_code: "EPAYTEST",
-    secret: "8gBm/:&EnhH.1/q"
-  })
-</script>
 
 <section class="">
   <div class="max-w-7xl mx-auto px-6 py-12">
@@ -167,16 +151,8 @@ print_r($faqs);
           placeholder="Amount (NPR)"
           class="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm focus:ring-2 focus:ring-orange-300 focus:outline-none" />
 
-        <select class="w-full rounded-xl border border-neutral-200 px-3 py-2 text-sm focus:ring-2 focus:ring-rose-300 focus:outline-none">
-          <option>Select Payment</option>
-          <option>Khalti</option>
-          <option>eSewa</option>
-          <option>Bank Transfer</option>
-        </select>
-
         <button
           id="donate_btn"
-
           class="w-full py-2 rounded-xl bg-linear-to-r from-orange-500 to-rose-500 text-white text-sm font-medium shadow-sm">
           Donate Now
         </button>
@@ -188,24 +164,52 @@ print_r($faqs);
         <h3 class="font-semibold text-sm">Contact</h3>
         <p class="text-neutral-600">📞 +977 98XXXXXXXX</p>
         <p class="text-neutral-600">📧 info@krishnamandir.org</p>
-
       </div>
-
   </aside>
-
-
 </main>
+
+<script src="/mandirsewa/public/js/easy-sewa.js"></script>
+
+<script>
+  let easySewa = new EasySewa.EasySewa({
+    environment: "development",
+    failure_url: "http://localhost/mandirsewa/failure",
+    success_url: "http://localhost/mandirsewa/success",
+    product_code: "EPAYTEST",
+    secret: "8gBm/:&EnhH.1/q"
+  })
+</script>
 
 <script>
   $("#donate_btn").click(() => {
     let amount = $("#amount_input").val();
 
-    if (amount) {
-      easySewa.pay({
-        amount: Number(amount),
-        transaction_uuid: Date.now() + "-" + '<?= $mandir['name'] ?>' + " donation"
-      })
-    }
-  })
+    if (!amount) return;
+
+    $.ajax({
+      url: "/mandirsewa/ajax/initiate-esewa.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+        amount_paid: amount,
+        mandir_id: "<?= $mandir['id'] ?>"
+      },
+      success: function(res) {
+        if (!res.success) {
+          alert("Failed to initiate donation");
+          return;
+        }
+
+        // 🔥 Use backend-generated transaction_uuid
+        easySewa.pay({
+          amount: Number(amount),
+          transaction_uuid: res.transaction_uuid
+        });
+      },
+      error: function() {
+        alert("Server error");
+      }
+    });
+  });
 </script>
 <?php include "../components/footer.php"; ?>
