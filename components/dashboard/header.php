@@ -125,6 +125,7 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
                     <a href="campaigns.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "campaigns.php") ?>">Campaigns</a>
                     <a href="donations.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">Donations</a>
                     <a href="faqs.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">FAQs</a>
+                    <a href="profile.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">Mandir Details</a>
                 <?php  } ?>
             </nav>
 
