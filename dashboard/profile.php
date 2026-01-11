@@ -10,7 +10,7 @@ $mandir = mysqli_query($conn, $sql)->fetch_assoc();
 
 ?>
 
-<link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet" />
+<link href="/mandirsewa/public/css/quill.snow.css" rel="stylesheet" />
 
 <form
 
@@ -129,23 +129,34 @@ $mandir = mysqli_query($conn, $sql)->fetch_assoc();
         <h4 class="text-sm font-medium text-gray-700 mb-2">Online presence</h4>
 
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <input
-                name="website"
-                class="form-input"
-                value="<?= htmlspecialchars($mandir['website']) ?>"
-                placeholder="Website">
+            <div class="form-group">
+                <label class="form-label">Website</label>
+                <input
+                    name="website"
+                    class="form-input"
+                    value="<?= htmlspecialchars($mandir['website']) ?>"
+                    placeholder="Website">
 
-            <input
-                name="facebook"
-                class="form-input"
-                value="<?= htmlspecialchars($mandir['facebook']) ?>"
-                placeholder="Facebook">
+            </div>
 
-            <input
-                name="youtube"
-                class="form-input"
-                value="<?= htmlspecialchars($mandir['youtube']) ?>"
-                placeholder="YouTube">
+
+            <div class="form-group">
+
+                <label class="form-label">Facebook</label>
+                <input
+                    name="facebook"
+                    class="form-input"
+                    value="<?= htmlspecialchars($mandir['facebook']) ?>"
+                    placeholder="Facebook">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Youtube</label>
+                <input
+                    name="youtube"
+                    class="form-input"
+                    value="<?= htmlspecialchars($mandir['youtube']) ?>"
+                    placeholder="YouTube">
+            </div>
         </div>
     </div>
 
@@ -172,7 +183,7 @@ $mandir = mysqli_query($conn, $sql)->fetch_assoc();
         </div>
     </div>
 
-    <input type="text" name="about_content" id="form_about_content" value="" hidden>
+    <input type="text" name="about_content" id="form_about_content" value="<?= $mandir['about_content'] ?>" hidden>
 
     <!-- ACTIONS -->
     <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
@@ -184,7 +195,7 @@ $mandir = mysqli_query($conn, $sql)->fetch_assoc();
 </form>
 
 
-<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script src="/mandirsewa/public/js/quill.js"></script>
 
 <!-- Initialize Quill editor -->
 <script>
