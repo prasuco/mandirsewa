@@ -71,9 +71,9 @@ $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
       <h2 class="text-sm font-semibold uppercase tracking-wide text-neutral-500">
         About the Mandir
       </h2>
-      <p class="text-sm leading-relaxed text-neutral-700">
+      <div class="prose leading-relaxed text-neutral-700">
         <?= $mandir['about_content'] ?>
-      </p>
+      </div>
     </div>
 
     <!-- IMAGE GALLERY -->

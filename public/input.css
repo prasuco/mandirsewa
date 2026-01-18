@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
 
 @theme {
   --color-primary: oklch(68% 0.18 45);
@@ -111,4 +113,3 @@
     @apply px-5 py-3 text-base;
   }
 }
-
