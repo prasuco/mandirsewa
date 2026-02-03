@@ -3,7 +3,7 @@ $title = "Home";
 include "../components/dashboard/header.php";
 
 
-$sql = "select * from donations where mandir_id = $current_mandir";
+$sql = "select * from donations where mandir_id = $current_mandir AND status='COMPLETED'";
 
 $donations = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
@@ -75,6 +75,7 @@ $donations = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
                     </td>
                 </tr>
             <?php }  ?>
+
 
         </tbody>
     </table>

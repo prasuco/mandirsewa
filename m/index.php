@@ -27,7 +27,7 @@ $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     <div class="flex flex-col md:flex-row md:items-center gap-6">
       <img
         src="/mandirsewa/<?= $mandir['logo'] ?? "default_mandir_logo.webp" ?>"
-        class="w-24 h-24 rounded-2xl bg-white p-4 shadow-md"
+        class="w-24 h-24 rounded-full bg-secondary p-px  shadow-md"
         alt="Mandir Logo" />
 
       <div class="flex-1 space-y-2">

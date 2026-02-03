@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../config/db.php'; // must define $conn
+require_once '../config/db.php';
 
 
 

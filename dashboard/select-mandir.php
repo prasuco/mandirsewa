@@ -2,7 +2,7 @@
 session_start();
 
 $mandirId = $_GET['id'];
-
+$goto = $_GET['goto'];
 
 
 if (!$mandirId) {
@@ -12,4 +12,4 @@ if (!$mandirId) {
 $_SESSION['current_mandir'] = $mandirId;
 
 
-header("Location: /mandirsewa/dashboard");
+header("Location: $goto");
