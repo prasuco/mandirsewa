@@ -30,6 +30,10 @@
 
 @layer components {
 
+  .required {
+    @apply text-red-500;
+  }
+
   /* ---------- FORM STRUCTURE ---------- */
 
   .form-group {

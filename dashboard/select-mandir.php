@@ -2,7 +2,12 @@
 session_start();
 
 $mandirId = $_GET['id'];
-$goto = $_GET['goto'];
+// fallback; if no goto is provided
+if (isset($_GET['goto'])) {
+    $goto = $_GET['goto'];
+} else {
+    $goto = "/mandirsewa/dashboard";
+}
 
 
 if (!$mandirId) {
