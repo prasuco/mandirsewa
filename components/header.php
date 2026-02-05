@@ -22,7 +22,7 @@ $showHeaderFooter = ($url != "/mandirsewa/login.php" && $url != "/mandirsewa/reg
 
 <body>
     <!-- for background -->
-    <div class="bg-linear-to-b from-orange-50 to-white">
+    <div class="bg-linear-to-b from-orange-50/50 to-white">
 
         <?php if ($showHeaderFooter) { ?>
 

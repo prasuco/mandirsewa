@@ -117,3 +117,7 @@
     @apply px-5 py-3 text-base;
   }
 }
+
+.close-modal {
+  @apply hover:rotate-180  duration-500;
+}
