@@ -54,7 +54,16 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
                 <span class="font-medium text-sm">Mandir Sewa</span>
             </div>
 
-            <div class="relative">
+            <div class="relative gap-2 flex">
+
+                <a
+                    href="/mandirsewa/m/redirect_to_mandir.php?id=<?= $current_mandir ?>"
+                    class="text-sm border border-slate-200 rounded-md px-2 py-2 "
+                    target="_blank">
+                    Visit Site <i class="fa-solid fa-globe"></i>
+                </a>
+
+
                 <button id="userMenuButton">
                     <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                         <i class="fa-solid fa-user text-xs text-gray-600"></i>
@@ -137,4 +146,4 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
                 <!-- <h1 class="text-lg font-semibold mb-4">
                     <?= $title ?? 'Dashboard' ?>
                 </h1> -->
-                <div class="bg-white border border-gray-200 rounded-md p-6 min-h-100">
+                <div class=" bg-gray-100/70     p-6 min-h-100">

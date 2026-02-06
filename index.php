@@ -12,9 +12,17 @@ include 'components/header.php';
     </p>
 
     <h1 class="md:text-4xl text-2xl font-bold">
-      Supports Mandir Digitally
+      Supports
+      <span class="underline decoration-wavy decoration-primary">
+
+        Mandir
+      </span>
+      Digitally
       <br>
-      With Devotion
+      With
+      <span class="underline decoration-wavy decoration-secondary">
+        Devotion
+      </span>
     </h1>
 
     <p class="text-lg text-gray-600 font-[350] text-center max-w-sm md:max-w-lg mx-auto font-sans leading-tight ">
@@ -24,7 +32,7 @@ include 'components/header.php';
     <a href="dashboard" class="btn btn-primary relative">
       Try Now <i class="fa-solid fa-arrow-right"></i>
     </a>
-    <img class="animate-pulse" src="/mandirsewa/public/images/hero.webp" alt="photo">
+    <img class=" border-2  border-gray-300 p-0.5 bg-secondary rounded-xl" src="/mandirsewa/public/images/image.png" alt="photo">
   </div>
 
 

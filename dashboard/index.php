@@ -2,7 +2,107 @@
 $title = "Home";
 include "../components/dashboard/header.php";
 
+$sql = "select sum(amount_paid) as amount from donations where mandir_id = $current_mandir AND status='COMPLETED' LIMIT 1   ";
+$donations = mysqli_query($conn, $sql)->fetch_assoc();
+
+$sql = "select count(id) as campaign from campaigns where created_by_mandir = $current_mandir    ";
+$campaigns = mysqli_query($conn, $sql)->fetch_assoc();
+
+$sql = "select count(id) as announcement from announcements where created_by_mandir = $current_mandir    ";
+$announcements = mysqli_query($conn, $sql)->fetch_assoc();
+
+
 ?>
+<!-- here comes create mandir form -->
+<?php require "../components/dashboard/create-mandir-form.php" ?>
+
+<div class="flex justify-end gap-3 pb-4 border-b border-gray-100">
+    <button
+        id="createMandir"
+        class="btn-primary">
+        Create Mandir
+    </button>
+</div>
+
+
+<div class="content">
+    <div class="flex flex-col xl:flex-row gap-2 ">
+
+        <div class=" bg-white shadow rounded-md group min-h-24 relative text-black flex flex-col   w-full p-4  ">
+
+            <div class="absolute right-2 text-primary p-2  top-0 rounded-lg    text-2xl opacity-85  ">
+
+                <p class="">
+                    <i class="fa-solid fa-wallet"></i>
+
+                </p>
+
+            </div>
+
+            <h2 class="text-md font-normal text-gray-400">
+                Total Donations
+            </h2>
+
+            <p class=" text-2xl  font-bold">
+                RS. <?= $donations['amount'] ?>
+            </p>
+
+
+
+        </div>
+
+
+        <div class=" bg-white shadow rounded-md group min-h-24 relative text-black flex flex-col   w-full p-4  ">
+
+            <div class="absolute right-2 text-primary p-2  top-0 rounded-lg    text-2xl opacity-85  ">
+
+                <p class="">
+                    <i class="fa-solid fa-calendar"></i>
+
+                </p>
+
+            </div>
+
+            <h2 class="text-md font-normal text-gray-400">
+                Total Campaigns
+            </h2>
+
+            <p class=" text-2xl  font-bold">
+                <?= $campaigns['campaign'] ?>
+            </p>
+
+
+
+        </div>
+
+
+        <div class=" bg-white shadow rounded-md group min-h-24 relative text-black flex flex-col   w-full p-4  ">
+
+            <div class="absolute right-2 text-primary p-2  top-0 rounded-lg    text-2xl opacity-85  ">
+
+                <p class="">
+<i class="fa-solid fa-bullhorn"></i>
+
+                </p>
+
+            </div>
+
+            <h2 class="text-md font-normal text-gray-400">
+                Total Announcements
+            </h2>
+
+            <p class=" text-2xl  font-bold">
+                <?= $announcements['announcement'] ?>
+            </p>
+
+
+
+        </div>
+
+
+
+    </div>
+</div>
 
 <?php if (!$mandirs) { ?>
     <div class="min-h-[60vh] flex items-center justify-center px-4">
@@ -26,25 +126,6 @@ include "../components/dashboard/header.php";
 
 <?php } ?>
 
-<!-- here comes create mandir form -->
-<?php require "../components/dashboard/create-mandir-form.php" ?>
-
-
-
-<div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
-    <button
-        id="createMandir"
-        class="btn-primary">
-        Create Mandir
-    </button>
-
-    <a
-        href="/mandirsewa/m/redirect_to_mandir.php?id=<?= $current_mandir ?>"
-        target="_blank"
-        class="btn-secondary">
-        View Mandir
-    </a>
-</div>
 
 
 
