@@ -54,7 +54,16 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
                 <span class="font-medium text-sm">Mandir Sewa</span>
             </div>
 
-            <div class="relative">
+            <div class="relative gap-2 flex">
+
+                <a
+                    href="/mandirsewa/m/redirect_to_mandir.php?id=<?= $current_mandir ?>"
+                    class="text-sm border border-slate-200 rounded-md px-2 py-2 "
+                    target="_blank">
+                    Visit Site <i class="fa-solid fa-globe"></i>
+                </a>
+
+
                 <button id="userMenuButton">
                     <div class="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center">
                         <i class="fa-solid fa-user text-xs text-gray-600"></i>
@@ -109,7 +118,7 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
                     $('#mandirSelector').change((value) => {
                         const mandirId = value.target.value
                         if (mandirId) {
-                            window.location.href = `/mandirsewa/dashboard/select-mandir.php?id=${mandirId}`;
+                            window.location.href = `/mandirsewa/dashboard/select-mandir.php?id=${mandirId}&goto=<?= $request_url ?>`;
                         }
                     })
                 </script>
@@ -120,11 +129,12 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
             <!-- Navigation -->
 
             <nav class="space-y-1 text-sm">
-                <a href="/mandirsewa/dashboard" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/") ?> font-medium">Home</a>
+                <a href="/mandirsewa/dashboard" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/") ?> font-medium">Home</a>
                 <?php if ($current_mandir) { ?>
-                    <a href="campaigns.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "campaigns.php") ?>">Campaigns</a>
-                    <a href="donations.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">Donations</a>
-                    <a href="faqs.php" class="block px-3 py-2 rounded-md hover:bg-gray-100">FAQs</a>
+                    <a href="campaigns.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/campaigns.php") ?>">Campaigns</a>
+                    <a href="donations.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/donations.php") ?>">Donations</a>
+                    <a href="faqs.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/faqs.php") ?>">FAQs</a>
+                    <a href="profile.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/profile.php") ?>">Mandir Details</a>
                 <?php  } ?>
             </nav>
 
@@ -136,4 +146,4 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
                 <!-- <h1 class="text-lg font-semibold mb-4">
                     <?= $title ?? 'Dashboard' ?>
                 </h1> -->
-                <div class="bg-white border border-gray-200 rounded-md p-6 min-h-100">
+                <div class=" bg-gray-100/70     p-6 min-h-100">

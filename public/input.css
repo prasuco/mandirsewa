@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
 
 @theme {
   --color-primary: oklch(68% 0.18 45);
@@ -27,6 +29,10 @@
 
 
 @layer components {
+
+  .required {
+    @apply text-red-500;
+  }
 
   /* ---------- FORM STRUCTURE ---------- */
 
@@ -112,3 +118,6 @@
   }
 }
 
+.close-modal {
+  @apply hover:rotate-180  duration-500;
+}

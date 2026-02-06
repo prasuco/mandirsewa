@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once __DIR__ . "/../config/db.php";
+$url = $_SERVER['REQUEST_URI'];
+
+$showHeaderFooter = ($url != "/mandirsewa/login.php" && $url != "/mandirsewa/register.php");
 ?>
 
 <!DOCTYPE html>
@@ -19,30 +22,33 @@ require_once __DIR__ . "/../config/db.php";
 
 <body>
     <!-- for background -->
-    <div class="bg-linear-to-b from-orange-100 to-white">
+    <div class="bg-linear-to-b from-orange-50/50 to-white">
 
-        <div class="max-w-7xl sticky  top-4 mx-auto mb-2 px-4">
-            <!-- for nav bar -->
-            <div class="h-16 bg-white shadow rounded-2xl  px-6 flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <a href="/mandirsewa">
-                        <img src="/mandirsewa/public/images/logo.webp" class="w-14 h-14 rounded-xl" alt="Mandir Logo" />
-                    </a>
+        <?php if ($showHeaderFooter) { ?>
+
+            <div class="max-w-7xl sticky  top-4 mx-auto mb-2 px-4">
+                <!-- for nav bar -->
+                <div class="h-16 bg-white shadow rounded-2xl  px-6 flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <a href="/mandirsewa">
+                            <img src="/mandirsewa/public/images/logo.webp" class="w-14 h-14 rounded-xl" alt="Mandir Logo" />
+                        </a>
+                    </div>
+
+                    <?php if (isset($_SESSION['id'])) { ?>
+                        <a href="/mandirsewa/dashboard" class="text-sm px-4 py-2 rounded-lg bg-primary text-white shadow-sm">
+                            Go to Dashboard
+                            <!-- for icon  -->
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    <?php } else { ?>
+                        <a href="/mandirsewa/register.php" class="text-sm px-4 py-2 rounded-lg bg-primary text-white shadow-sm">
+                            Get started
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    <?php } ?>
+
+
                 </div>
-
-                <?php if (isset($_SESSION['id'])) { ?>
-                    <a href="/mandirsewa/dashboard" class="text-sm px-4 py-2 rounded-lg bg-primary text-white shadow-sm">
-                        Go to Dashboard
-                        <!-- for icon  -->
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                <?php } else { ?>
-                    <a href="/mandirsewa/register.php" class="text-sm px-4 py-2 rounded-lg bg-primary text-white shadow-sm">
-                        Get started
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-                <?php } ?>
-
-
             </div>
-        </div>
+        <?php } ?>

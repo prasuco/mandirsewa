@@ -101,7 +101,7 @@
         <div class="grid grid-cols-1 gap-4">
             <div class="form-group">
                 <label class="form-label">Logo</label>
-                <input type="file" name="logo" class="form-input">
+                <input type="file" name="logo" accept="image/png, image/jpeg" class="form-input">
             </div>
         </div>
     </div>

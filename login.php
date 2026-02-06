@@ -33,29 +33,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 ?>
 
-<div class="min-h-screen flex flex-col md:flex-row">
+<div class="min-h-screen flex flex-col justify-center  md:flex-row-reverse bg-white">
 
   <!-- LEFT SIDE (IMAGE) -->
-  <div class="md:w-1/2 w-full h-64 md:h-auto">
+  <div class="hidden md:block md:w-1/2 ">
     <img src="/mandirsewa/public/images/login_hero.jpg" alt="Login Image" class="w-full h-full object-cover" />
   </div>
 
   <!-- RIGHT SIDE (LOGIN FORM) -->
-  <div class="md:w-1/2 w-full flex items-center justify-center bg-white">
-    <div class="w-full max-w-md p-8">
+  <div class="md:w-1/2 w-full flex items-center justify-center ">
+    <div class="w-full max-w-md p-8 space-y-2">
 
-      <h2 class="text-3xl font-bold text-orange-800 mb-6 text-center">
-        LOGIN HERE
+      <h2 class="text-3xl font-bold text-gray-800  ">
+        Login Organization
       </h2>
+      <p class="text-sm  text-gray-600 ">
+        Signin with your email and password.
+
+      </p>
       <form method="post" class="space-y-4">
         <div>
-          <label class="block text-gray-600 mb-1">Email</label>
+          <label class="block text-gray-600 mb-1">Email <span class="required">*</span></label>
           <input name="email" type="email" placeholder="Enter your email"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>
 
         <div>
-          <label class="block text-gray-600 mb-1">Password</label>
+          <label class="block text-gray-600 mb-1">Password
+
+            <span class="required">*</span>
+          </label>
           <input name="password" type="password" placeholder="Enter your password"
             class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
         </div>

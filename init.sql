@@ -56,6 +56,9 @@ CREATE TABLE campaigns (
 
 CREATE TABLE donations (
   id INT AUTO_INCREMENT PRIMARY KEY,
+  transaction_uuid VARCHAR(255) UNIQUE,
+  name VARCHAR(100) null,
+  email VARCHAR(100) null, 
   amount_paid DOUBLE,
   payment_method VARCHAR(50),
   status VARCHAR(50),

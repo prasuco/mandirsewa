@@ -39,25 +39,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 }
 
-
-
-
-
 ?>
-<div class="min-h-screen flex flex-col md:flex-row">
+<div class="min-h-screen flex flex-col justify-center md:flex-row-reverse bg-white">
 
     <!-- LEFT SIDE (IMAGE) -->
-    <div class="md:w-1/2 w-full h-64 md:h-auto">
+    <div class="hidden md:block md:w-1/2 w-full h-64 md:h-auto">
         <img src="/mandirsewa/public/images/login_hero.jpg" alt="Login Image" class="w-full h-full object-cover" />
     </div>
 
     <!-- RIGHT SIDE (LOGIN FORM) -->
-    <div class="md:w-1/2 w-full flex items-center justify-center bg-white">
-        <div class="w-full max-w-md p-8">
+    <div class="md:w-1/2 w-full flex items-center justify-center">
+        <div class="w-full max-w-md p-8 space-y-2">
 
-            <h2 class="text-3xl font-bold text-orange-800 mb-6 text-center">
-                REGISTER YOUR MANDIR ORGANIZATION
+            <h2 class="text-3xl font-bold text-gray-800  ">
+                Register Organization
             </h2>
+            <p class="text-sm  text-gray-600 ">
+                Register your Organizations to manage your mandirs
+
+            </p>
             <form method="post" class="space-y-4">
                 <div>
                     <label class="block text-gray-600 mb-1">Name</label>
@@ -83,13 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 </div>
 
                 <button type="submit" class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-red-700 transition">
-                    submit
+                    Register
                 </button>
 
             </form>
             <p class="text-center text-sm text-gray-500 mt-4">
                 Already have an account?
-                <a href="/mandirsewa/login.php" class="text-red-600 hover:underline">login</a>
+                <a href="/mandirsewa/login.php" class="text-red-600 hover:underline">Login</a>
             </p>
 
 
