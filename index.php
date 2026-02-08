@@ -3,24 +3,20 @@ $title = "Homepage";
 include 'components/header.php';
 ?>
 
-<div class="flex flex-col p-2 max-w-6xl mx-auto justify-around items-center space  mt-10">
-  <div class="flex-col text-center   items-center space-y-5   ">
+<div class="flex flex-col p-2 max-w-6xl mx-auto justify-around items-center  mt-10">
+  <div class="flex-col text-center   items-center space-y-6   ">
     <p
       class="bg-[#1e1f250a] hover:border-gray-300 border border-gray-200 font-medium  text-sm  text-black inline-block px-2 rounded-full  ">
       For Devotess Worldwide
 
     </p>
 
-    <h1 class="md:text-4xl text-2xl font-bold">
-      Supports
-      <span class="underline decoration-wavy decoration-primary">
-
-        Mandir
-      </span>
-      Digitally
+    <h1 class="md:text-6xl text-3xl text-center font-bold leading-snug ">
+      Support
+      <span class=" bg-primary text-white px-4 py-[-16px]">Mandir</span> Digitally
       <br>
       With
-      <span class="underline decoration-wavy decoration-secondary">
+      <span class="underline line decoration-wavy decoration-secondary underline-offset-[20px   ] ">
         Devotion
       </span>
     </h1>
