@@ -77,8 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
                 <div>
-                    <label class="block text-gray-600 mb-1"> confirm Password</label>
-                    <input name="confirm_password" type="password" placeholder="confirm password"
+                    <label class="block text-gray-600 mb-1"> Confirm Password</label>
+                    <input name="confirm_password" type="password" placeholder="Confirm password"
                         class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
                 </div>
 
