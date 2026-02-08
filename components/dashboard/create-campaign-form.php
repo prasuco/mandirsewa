@@ -5,7 +5,7 @@
     enctype="multipart/form-data"
     class="modal bg-white w-full! max-w-2xl! rounded-lg p-6 space-y-4">
 
-    <!-- Header -->
+<!-- Title -->
     <div>
         <h3 class="text-base font-semibold text-gray-800">
             Create a New Campaign/Event
@@ -14,8 +14,6 @@
             Please provide the basic information that is used to create a campaign/event.
         </p>
     </div>
-
-    <!-- BASIC INFO -->
 
 
     <div class="grid grid-cols-4 md:grid-cols-6  gap-4 ">
@@ -26,10 +24,9 @@
 
         <div class="form-group col-span-full md:col-span-2">
             <label class="form-label">Type </label>
-            <select name="type" class="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-rose-400">
-
-                <option selected value="event">Event</option>
-                <option value="campaign">Campaign</option>
+            <select id="typeSelector" name="type" class="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-rose-400">
+                <option selected value="campaign">Campaign</option>
+                <option value="event">Event</option>
             </select>
         </div>
     </div>
@@ -49,8 +46,8 @@
             placeholder="History, significance, rituals..."></textarea>
     </div>
 
-    <!-- LOCATION -->
-    <div>
+    
+    <div id="amountWrapper">
         <h4 class="text-sm font-medium text-gray-700 mb-2">
             Target Amount
         </h4>
@@ -58,7 +55,7 @@
 
         <div class="form-group">
             <label class="form-label">Amount</label>
-            <input name="target_amount" class="form-input" placeholder="Rs. 222">
+            <input id="targetAmount" name="target_amount" class="form-input" placeholder="Rs. 222">
         </div>
 
 
@@ -76,3 +73,20 @@
 
 
 </form>
+
+<script>
+    const typeSelector = $("#typeSelector");
+    const amountWrapper = $("#amountWrapper");
+
+    typeSelector.change((d) => {
+
+        let type = d.target.value;
+
+        if (type == 'event') {
+            amountWrapper.hide()
+        } else {
+            amountWrapper.show()
+        }
+
+    })
+</script>
