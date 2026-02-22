@@ -56,7 +56,7 @@ include 'components/header.php';
     
     
     <div class="text-center mb-14">
-      <h2 class="text-gray-500 uppercase tracking-widest text-base font-semibold">
+      <h2 class="text-black uppercase tracking-widest text-base font-semibold">
         Trusted by Thousands of Mandirs
       </h2>
     </div>
@@ -92,6 +92,104 @@ include 'components/header.php';
     </div>
 
   </section>
+ 
+         
+     <section class="bg-neutral-100 py-24 px-6">
+  <div class="max-w-6xl mx-auto text-center">
+    
+    
+    <h1 class="text-4xl md:text-6xl font-bold text-gray-900 leading-tight">
+      Designed for 
+      
+      
+      <span class= "bg-primary text-white px-4 py-[-16px]">
+        Mandirs
+      </span>,
+      <br />
+      
+      not for 
+      
+    
+      <span class="underline line decoration-wavy decoration-secondary underline-offset-[20px   ] ">
+        middlemen
+        <span class="absolute left-0 -bottom-2 w-full h-3">
+          <svg viewBox="0 0 200 20" class="w-full h-full">
+            <path 
+              d="M0 12 Q 25 2, 50 12 T 100 12 T 150 12 T 200 12" 
+              stroke="#ec4899" 
+              stroke-width="6" 
+              fill="transparent" 
+              stroke-linecap="round"/>
+          </svg>
+        </span>
+      </span>.
+    </h1>
+
+    
+    <div class="mt-20 grid md:grid-cols-2 gap-12 text-left">
+      
+      
+      <div class="flex items-start gap-5">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full border-2 border-gray-800 flex items-center justify-center">
+          <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <p class="text-lg text-gray-600">
+          We don’t call them “donors” or transactions. They are your 
+          <span class="font-semibold text-gray-900">devotees.</span>
+        </p>
+      </div>
+
+      
+      <div class="flex items-start gap-5">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full border-2 border-gray-800 flex items-center justify-center">
+          <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <p class="text-lg text-gray-600">
+          You have 
+          <span class="font-semibold text-gray-900">100% ownership</span> 
+          of your devotee data. Export anytime. We never contact them.
+        </p>
+      </div>
+
+    
+      <div class="flex items-start gap-5">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full border-2 border-gray-800 flex items-center justify-center">
+          <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <p class="text-lg text-gray-600">
+          Mandir committees can 
+          <span class="font-semibold text-gray-900">create campaigns easily</span> 
+          for sewa, renovation, festivals, or annadan.
+        </p>
+      </div>
+
+      
+      <div class="flex items-start gap-5">
+        <div class="flex-shrink-0 w-10 h-10 rounded-full border-2 border-gray-800 flex items-center justify-center">
+          <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <p class="text-lg text-gray-600">
+          Receive donations 
+          <span class="font-semibold text-gray-900">directly to your bank account.</span> 
+          No long delays. No hidden control.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+      
+      
+   
 
 </body>
 </html>
