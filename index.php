@@ -32,9 +32,69 @@ include 'components/header.php';
   </div>
 
 
-</div>
 
 </div>
+
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    @keyframes scroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .animate-scroll {
+      animation: scroll 35s linear infinite;
+    }
+  </style>
+</head>
+
+<body class="bg-orange-50">
+
+  <section class="py-20 overflow-hidden bg-white">
+    
+    
+    <div class="text-center mb-14">
+      <h2 class="text-gray-500 uppercase tracking-widest text-base font-semibold">
+        Trusted by Thousands of Mandirs
+      </h2>
+    </div>
+
+    
+    <div class="relative w-full overflow-hidden">
+      
+      
+      <div class="absolute left-0 top-0 h-full w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
+      <div class="absolute right-0 top-0 h-full w-32 bg-gradient-to-l from-white to-transparent z-10"></div>
+
+      <div class="flex w-max animate-scroll space-x-24 items-center">
+
+     
+
+      
+        <img src="/mandirsewa/public/images/pasupati.png" class="h-24 object-contain grayscale opacity-70 hover:opacity-100 hover:scale-110 transition duration-300" />
+        <img src="/mandirsewa/public/images/kali.png" class="h-24 object-contain grayscale opacity-70 hover:opacity-100 hover:scale-110 transition duration-300" />
+        <img src="/mandirsewa/public/images/sus.png" class="h-24 object-contain grayscale opacity-70 hover:opacity-100 hover:scale-110 transition duration-300" />
+        <img src="/mandirsewa/public/images/download.png" class="h-24 object-contain grayscale opacity-70 hover:opacity-100 hover:scale-110 transition duration-300" />
+        <img src="/mandirsewa/public/images/mmm.png" class="h-24 object-contain grayscale opacity-70 hover:opacity-100 hover:scale-110 transition duration-300" />
+        <img src="/mandirsewa/public/images/img.png" class="h-24 object-contain grayscale opacity-70 hover:opacity-100 hover:scale-110 transition duration-300" />
+
+        
+        <img src="/mandirsewa/public/images/pasupati.png" class="h-24 object-contain" />
+        <img src="/mandirsewa/public/images/kali.png class"class="h-24 object-contain" />
+        <img src="/mandirsewa/public/images/sus.png" class="h-24 object-contain" />
+        <img src="/mandirsewa/public/images/download.png" class="h-24 object-contain" />
+        <img src="/mandirsewa/public/images/mmm.png" class="h-24 object-contain" />
+        <img src="/mandirsewa/public/images/img.png" class="h-24 object-contain" />
+
+      </div>
+    </div>
+
+  </section>
+
+</body>
+</html>
 
 
 <?php
