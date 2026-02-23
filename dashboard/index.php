@@ -48,7 +48,7 @@ if ($current_mandir) {
                 </h2>
 
                 <p class=" text-2xl  font-bold">
-                    RS. <?= $donations['amount'] ?>
+                    RS. <?= $donations['amount'] ?? "0" ?>
                 </p>
 
 

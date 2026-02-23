@@ -16,8 +16,16 @@ $request_url = $_SERVER['REQUEST_URI'];
             <div class="w-full gap-2 p-2 flex flex-col shadow rounded-md items-center mandir  ">
                 <img class="w-20 h-20 rounded-full" src="/mandirsewa/<?= $mandir['logo'] ?>" alt="<?= $mandir['name'] ?> Logo">
                 <p> <?= $mandir['name'] ?> </p>
-                <a class="btn-primary btn-sm" href="/mandirsewa/dashboard/select-mandir.php?id=<?= $mandir['id'] ?>&goto=<?= $request_url ?>">
-                    Select Mandir
+                <a class="btn-primary btn-sm    <?php if ($current_mandir == $mandir['id']) { ?> opacity-30   <?php } ?> "
+
+                    <?php if ($current_mandir != $mandir['id']) { ?>
+                    href="/mandirsewa/dashboard/select-mandir.php?id=<?= $mandir['id'] ?>&goto=<?= $request_url ?>"
+                    <?php } ?>>
+                    <?php if ($current_mandir == $mandir['id']) { ?>
+                        Selected
+                    <?php } else { ?>
+                        Select
+                    <?php } ?>
                 </a>
             </div>
         <?php } ?>

@@ -140,14 +140,16 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
         </p>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <?php foreach ($mandir_images as $image): ?>
           <div class="relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
             <img
               src="/mandirsewa/<?= $image['url'] ?>"
               alt="<?= $image['image_name'] ?>"
-              class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
-            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              class="w-full h-72 object-cover  transition-transform duration-500" />
+            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <p class="text-white text-sm font-medium p-4 w-full bg-linear-to-t from-black/50 to-transparent"><?= $image['image_name'] ?></p>
+            </div>
           </div>
         <?php endforeach; ?>
       </div>

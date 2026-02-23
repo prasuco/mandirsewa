@@ -104,10 +104,12 @@ $current_mandir_details = array_find($mandirs, fn($m) => $m["id"] == $current_ma
             <!-- Mandir Switcher -->
             <div class="mb-6">
                 <label class="text-xs text-gray-500 block mb-1">Current Mandir</label>
-                <a class="btn btn-ghost" href="#selectMandirModal" rel="modal:open">
-                    <?= $current_mandir_details['name'] ?>
-                    <i class="fa-solid fa-caret-down"></i>
-                </a>
+                <?php if (isset($current_mandir)) { ?>
+                    <a class="btn btn-ghost" href="#selectMandirModal" rel="modal:open">
+                        <?= $current_mandir_details['name'] ?>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </a>
+                <?php } ?>
             </div>
 
             <!-- Navigation -->
