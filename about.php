@@ -63,7 +63,7 @@ include 'components/header.php';
 
         <p>
           Mandir Sewa is built not to replace traditional practices, but to
-          support them — using technology thoughtfully to strengthen the
+          support them using technology thoughtfully to strengthen the
           connection between temples and devotees.
         </p>
 
