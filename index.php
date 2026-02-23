@@ -71,11 +71,16 @@ $mandirs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     <div class="absolute right-0 top-0 h-full w-32 bg-linear-to-l from-white to-transparent z-10"></div>
 
     <div class="flex w-max animate-scroll space-x-24 items-center">
+
+    <!-- more number of elements more full the animation will be -->
       <?php foreach ($mandirs as $mandir) { ?>
         <img src="/mandirsewa/<?= $mandir['logo'] ?>" class="h-24 object-contain grayscale hover:grayscale-0 opacity-70 hover:opacity-100 hover:scale-110 transition duration-300" />
       <?php } ?>
 
-      <?php foreach (array_reverse($mandirs) as $mandir) { ?>
+      <?php foreach (($mandirs) as $mandir) { ?>
+        <img src="/mandirsewa/<?= $mandir['logo'] ?>" class="h-24 object-contain grayscale hover:grayscale-0 opacity-70 hover:opacity-100 hover:scale-110 transition duration-300" />
+      <?php } ?>
+      <?php foreach (($mandirs) as $mandir) { ?>
         <img src="/mandirsewa/<?= $mandir['logo'] ?>" class="h-24 object-contain grayscale hover:grayscale-0 opacity-70 hover:opacity-100 hover:scale-110 transition duration-300" />
       <?php } ?>
     </div>
