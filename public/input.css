@@ -100,7 +100,7 @@
   }
 
   .btn-ghost {
-    @apply btn text-gray-600 hover:bg-gray-100 focus:ring-gray-300;
+    @apply btn border text-gray-600 hover:bg-gray-100 focus:ring-gray-300;
   }
 
   .btn-danger {
@@ -121,3 +121,4 @@
 .close-modal {
   @apply hover:rotate-180  duration-500;
 }
+
