@@ -10,12 +10,12 @@ include 'components/header.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Our Team</title>
 
-  <!-- Tailwind CSS CDN -->
+  
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100">
 
-  <!-- Our Team Section -->
+  
   <section class="py-12">
     <div class="max-w-6xl mx-auto px-4 text-center">
       
@@ -24,10 +24,10 @@ include 'components/header.php';
         Meet the people behind our website
       </p>
 
-      <!-- Team Members -->
+      
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
 
-        <!-- Team Member 1 -->
+        
         <div class="bg-white rounded-xl shadow-lg p-6">
           <img 
             src="/mandirsewa/public/images/sunis.png" 
@@ -38,7 +38,7 @@ include 'components/header.php';
           <p class="text-gray-500">Frontend Developer</p>
         </div>
 
-        <!-- Team Member 2 -->
+
         <div class="bg-white rounded-xl shadow-lg p-6">
           <img 
             src="/mandirsewa/public/images/prab.png" 
@@ -49,7 +49,7 @@ include 'components/header.php';
           <p class="text-gray-500">Backend Developer</p>
         </div>
 
-        <!-- Team Member 3 -->
+    
         <div class="bg-white rounded-xl shadow-lg p-6">
           <img 
             src="/mandirsewa/public/images/jivan.png" 
