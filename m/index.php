@@ -63,6 +63,56 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     </div>
   <?php endforeach; ?>
 
+  <!-- CAMPAIGN MODALS -->
+  <?php foreach ($campaigns as $campaign): ?>
+    <div id="campaignModal<?= $campaign['id'] ?>" class="modal bg-white max-w-lg! ">
+      <div class="p-2 space-y-4">
+        <div class="flex items-center justify-between">
+          <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-white">
+            <?= ucfirst($campaign['type']) ?>
+          </span>
+
+        </div>
+
+        <h3 class="text-xl font-bold text-gray-900"><?= $campaign['name'] ?></h3>
+        <p class="text-gray-600 text-sm leading-relaxed"><?= $campaign['description'] ?></p>
+
+        <?php if ($campaign['content']): ?>
+          <div class="text-gray-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
+            <?= $campaign['content'] ?>
+          </div>
+        <?php endif; ?>
+
+        <?php if ($campaign['target_amount']): ?>
+          <div class="bg-gray-50 rounded-lg p-4 space-y-2">
+            <div class="flex justify-between text-sm">
+              <span class="text-gray-500">Target Amount</span>
+              <span class="font-bold text-gray-900">NPR <?= number_format($campaign['target_amount']) ?></span>
+            </div>
+          </div>
+        <?php endif; ?>
+
+        <div class="bg-primary/5 rounded-lg p-4 space-y-3 border-t border-gray-100 pt-4">
+          <h4 class="text-sm font-semibold text-gray-800">Support this Campaign</h4>
+          <input
+            type="number"
+            id="campaign_amount_<?= $campaign['id'] ?>"
+            placeholder="Enter amount (NPR)"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
+          <button
+            onclick="donateToCampaign(<?= $campaign['id'] ?>)"
+            class="w-full btn-primary">
+            Donate Now
+          </button>
+          <p class="text-xs text-gray-400 text-center">
+            <i class="fas fa-shield-alt mr-1"></i>
+            Secure payment via eSewa
+          </p>
+        </div>
+      </div>
+    </div>
+  <?php endforeach; ?>
+
   <div class="max-w-7xl mx-auto px-6 py-16">
     <div class="text-center space-y-8">
       <div class="inline-flex items-center justify-center ">
@@ -195,9 +245,9 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
               <?php endif; ?>
 
               <div class="pt-4 border-t border-gray-100">
-                <button class="w-full btn-primary">
+                <a href="#campaignModal<?= $campaign['id'] ?>" rel="modal:open" class="w-full btn-primary inline-block text-center">
                   Learn More
-                </button>
+                </a>
               </div>
             </div>
           </div>
@@ -439,19 +489,45 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     secret: "8gBm/:&EnhH.1/q"
   })
 
-
-
   <?php foreach ($active_announcements as $announcement) {
   ?>
-
     $('#announcementModal<?= $announcement['id'] ?>').modal({
       closeExisting: false,
-
       fadeDuration: 100
-
     });
-
   <?php } ?>
+
+  function donateToCampaign(campaignId) {
+    let amount = $("#campaign_amount_" + campaignId).val();
+    if (!amount) {
+      alert("Please enter an amount");
+      return;
+    }
+
+    $.ajax({
+      url: "/mandirsewa/ajax/initiate-esewa.php",
+      type: "POST",
+      dataType: "json",
+      data: {
+        amount_paid: amount,
+        campaign_id: campaignId,
+        mandir_id: "<?= $mandir['id'] ?>"
+      },
+      success: function(res) {
+        if (!res.success) {
+          alert("Failed to initiate donation");
+          return;
+        }
+        easySewa.pay({
+          amount: Number(amount),
+          transaction_uuid: res.transaction_uuid
+        });
+      },
+      error: function() {
+        alert("Server error");
+      }
+    });
+  }
 </script>
 
 <script>

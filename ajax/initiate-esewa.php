@@ -31,16 +31,14 @@ $campaign_id = mysqli_real_escape_string($conn, $campaign_id);
 
 $transaction_uuid = time() . '-' . $amount_paid;
 
-if (empty($mandir_id)) {
-
+if (!empty($campaign_id)) {
     $sql = "
         INSERT INTO donations
-        (transaction_uuid, amount_paid, payment_method, status, campaign_id)
+        (transaction_uuid, amount_paid, payment_method, status, campaign_id, mandir_id)
         VALUES
-        ('$transaction_uuid', '$amount_paid', 'esewa', 'INIT', '$campaign_id')
+        ('$transaction_uuid', '$amount_paid', 'esewa', 'INIT', '$campaign_id', '$mandir_id')
     ";
 } else {
-
     $sql = "
         INSERT INTO donations
         (transaction_uuid, amount_paid, payment_method, status, mandir_id)

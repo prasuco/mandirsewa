@@ -72,7 +72,7 @@ $mandirs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
     <div class="flex w-max animate-scroll space-x-24 items-center">
 
-    <!-- more number of elements more full the animation will be -->
+      <!-- more number of elements more full the animation will be -->
       <?php foreach ($mandirs as $mandir) { ?>
         <img src="/mandirsewa/<?= $mandir['logo'] ?>" class="h-24 object-contain grayscale hover:grayscale-0 opacity-70 hover:opacity-100 hover:scale-110 transition duration-300" />
       <?php } ?>
