@@ -14,6 +14,12 @@ if ($current_mandir) {
 
     $sql = "select count(id) as announcement from announcements where created_by_mandir = $current_mandir    ";
     $announcements = mysqli_query($conn, $sql)->fetch_assoc();
+
+    $sql = "select count(id) as image from images where mandir_id = $current_mandir    ";
+    $images = mysqli_query($conn, $sql)->fetch_assoc();
+
+    $sql = "select count(id) as faq from faqs where created_by_mandir = $current_mandir    ";
+    $faqs = mysqli_query($conn, $sql)->fetch_assoc();
 }
 ?>
 <!-- here comes create mandir form -->
@@ -29,8 +35,8 @@ if ($current_mandir) {
 
 
 <?php if (isset($current_mandir)) {  ?>
-    <div class="content">
-        <div class="flex flex-col xl:flex-row gap-2 ">
+    <div class="content ">
+        <div class="flex flex-col xl:flex-row gap-2  ">
 
             <div class=" bg-white shadow rounded-md group min-h-24 relative text-black flex flex-col   w-full p-4  ">
 
@@ -99,12 +105,60 @@ if ($current_mandir) {
                     <?= $announcements['announcement'] ?>
                 </p>
 
-
-
             </div>
 
 
 
+
+        </div>
+
+
+        <div class="flex flex-col xl:flex-row gap-2 mt-2 ">
+            <div class=" bg-white shadow rounded-md group min-h-24 relative text-black flex flex-col   w-full p-4  ">
+
+                <div class="absolute right-2 text-primary p-2  top-0 rounded-lg    text-2xl opacity-85  ">
+
+                    <p class="">
+                        <i class="fa-solid fa-images"></i>
+
+                    </p>
+
+                </div>
+
+                <h2 class="text-md font-normal text-gray-400">
+                    Total Images
+                </h2>
+
+                <p class=" text-2xl  font-bold">
+                    <?= $images['image'] ?>
+                </p>
+
+
+
+            </div>
+
+            <div class=" bg-white shadow rounded-md group min-h-24 relative text-black flex flex-col   w-full p-4  ">
+
+                <div class="absolute right-2 text-primary p-2  top-0 rounded-lg    text-2xl opacity-85  ">
+
+                    <p class="">
+                        <i class="fa-solid fa-circle-question"></i>
+
+                    </p>
+
+                </div>
+
+                <h2 class="text-md font-normal text-gray-400">
+                    Total FAQs
+                </h2>
+
+                <p class=" text-2xl  font-bold">
+                    <?= $faqs['faq'] ?>
+                </p>
+
+
+
+            </div>
         </div>
     </div>
 
