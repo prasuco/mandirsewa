@@ -18,6 +18,9 @@ $showHeaderFooter = ($url != "/mandirsewa/login.php" && $url != "/mandirsewa/reg
     <link rel="stylesheet" href="/mandirsewa/public/css/app.css?<?= time() ?>">
     <link rel="stylesheet" href="/mandirsewa/public/css/fontawesome.all.min.css" />
     <script src="/mandirsewa/public/js/jquery.min.js"></script>
+     <!-- jQuery Modal -->
+    <script src="/mandirsewa/public/js/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="/mandirsewa/public/css/jquery.modal.min.css" />
 </head>
 
 <body>
