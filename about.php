@@ -11,16 +11,14 @@ include 'components/header.php';
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>About Us | Mandir Sewa</title>
 
-  <!-- Tailwind CDN -->
+  
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<!-- ❌ removed flex & items-center -->
 <body class="bg-orange-50">
 
   <section class="w-full px-6 md:px-20 lg:px-32 py-24">
 
-    <!-- Small label -->
+    
     <p class="text-sm uppercase text-center tracking-widest text-orange-500 mb-3">
       About Us
     </p>
