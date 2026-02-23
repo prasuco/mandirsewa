@@ -90,19 +90,15 @@ CREATE TABLE announcements (
   description VARCHAR(255),
   start_date DATETIME,
   end_date DATETIME,
-  redirect_url VARCHAR(255) NULL,
 
   created_by_mandir INT,
-  verified BOOLEAN,
-  verified_by INT NULL,
 
   created_at DATETIME,
   updated_at DATETIME,
 
   CONSTRAINT fk_announcements_mandir
     FOREIGN KEY (created_by_mandir) REFERENCES mandirs(id),
-  CONSTRAINT fk_announcements_verified_by
-    FOREIGN KEY (verified_by) REFERENCES users(id)
+
 );
 
 CREATE TABLE kyc_verifications (

@@ -19,6 +19,9 @@ try {
 
 $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
 
+
+
+$current_mandir_details = array_find($mandirs, fn($m) => $m["id"] == $current_mandir);
 ?>
 
 <!DOCTYPE html>
@@ -98,32 +101,13 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
          transition-transform duration-200
          sm:shrink-0
          sm:h-[calc(100vh-3.5rem)] overflow-y-auto">
-
             <!-- Mandir Switcher -->
             <div class="mb-6">
                 <label class="text-xs text-gray-500 block mb-1">Current Mandir</label>
-                <select id="mandirSelector"
-                    class="w-full text-sm border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-1 focus:ring-rose-400">
-                    <option value="" selected disabled>Select A Mandir</option>
-                    <?php foreach ($mandirs as $mandir) { ?>
-                        <option
-                            <?= ($mandir['id'] == $current_mandir) ? 'selected' : '' ?>
-                            value="<?= $mandir['id'] ?>">
-                            <?= $mandir['name'] ?>
-                        </option>
-                    <?php } ?>
-                </select>
-
-                <script>
-                    $('#mandirSelector').change((value) => {
-                        const mandirId = value.target.value
-                        if (mandirId) {
-                            window.location.href = `/mandirsewa/dashboard/select-mandir.php?id=${mandirId}&goto=<?= $request_url ?>`;
-                        }
-                    })
-                </script>
-
-
+                <a class="btn btn-ghost" href="#selectMandirModal" rel="modal:open">
+                    <?= $current_mandir_details['name'] ?>
+                    <i class="fa-solid fa-caret-down"></i>
+                </a>
             </div>
 
             <!-- Navigation -->
@@ -131,8 +115,10 @@ $current_mandir =   $_SESSION['current_mandir'] ?? NULL;
             <nav class="space-y-1 text-sm">
                 <a href="/mandirsewa/dashboard" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/") ?> font-medium">Home</a>
                 <?php if ($current_mandir) { ?>
+                    <a href="announcements.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/announcements.php") ?>">Announcements</a>
                     <a href="campaigns.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/campaigns.php") ?>">Campaigns</a>
                     <a href="donations.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/donations.php") ?>">Donations</a>
+                    <a href="gallery.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/gallery.php") ?>">Gallery</a>
                     <a href="faqs.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/faqs.php") ?>">FAQs</a>
                     <a href="profile.php" class="block px-3 py-2 rounded-md <?= get_active_class($request_url, "/mandirsewa/dashboard/profile.php") ?>">Mandir Details</a>
                 <?php  } ?>

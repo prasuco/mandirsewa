@@ -26,10 +26,43 @@ $events = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 $sql = "SELECT * FROM `images` WHERE `mandir_id` = $mandir_id";
 $mandir_images = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
+$now = date('Y-m-d H:i:s');
+$sql = "SELECT * FROM `announcements` WHERE `created_by_mandir` = $mandir_id AND start_date <= '$now' AND end_date >= '$now' ORDER BY id DESC";
+$active_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
+
+$sql = "SELECT * FROM `announcements` WHERE `created_by_mandir` = $mandir_id ORDER BY id DESC LIMIT 5";
+$all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
+
 ?>
+
 
 <!-- HERO SECTION -->
 <section class="bg-gray-50 ">
+  <!-- ANNOUNCEMENT MODALS -->
+  <?php foreach ($active_announcements as  $announcement): ?>
+    <div id="announcementModal<?= $announcement['id'] ?>" class="modal bg-white max-w-lg! ">
+      <?php if ($announcement['image']): ?>
+        <img src="/mandirsewa/<?= $announcement['image'] ?>" alt="<?= $announcement['title'] ?>" class="w-full h-48 object-cover">
+      <?php endif; ?>
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-3">
+          <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-white">
+            <i class="fas fa-bullhorn mr-1"></i> Announcement
+          </span>
+
+        </div>
+        <h3 class="text-xl font-bold text-gray-900 mb-3"><?= $announcement['title'] ?></h3>
+        <p class="text-gray-600 leading-relaxed"><?= $announcement['description'] ?></p>
+        <div class="mt-4 pt-4 border-t border-gray-100">
+          <p class="text-xs text-gray-400">
+            <i class="fas fa-calendar-alt mr-1"></i>
+            Valid until <?= date('M d, Y', strtotime($announcement['end_date'])) ?>
+          </p>
+        </div>
+      </div>
+    </div>
+  <?php endforeach; ?>
+
   <div class="max-w-7xl mx-auto px-6 py-16">
     <div class="text-center space-y-8">
       <div class="inline-flex items-center justify-center ">
@@ -96,37 +129,30 @@ $mandir_images = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
   </section>
 
   <!-- IMAGE GALLERY -->
-  <section class="space-y-8">
-    <div class="text-center space-y-3">
-      <h2 class="text-2xl font-bold text-gray-900">
-        Sacred Gallery
-      </h2>
-      <p class="text-gray-500 max-w-md mx-auto">
-        Explore the divine beauty and spiritual moments captured at our temple
-      </p>
-    </div>
+  <?php if (count($mandir_images) > 0): ?>
+    <section class="space-y-8">
+      <div class="text-center space-y-3">
+        <h2 class="text-2xl font-bold text-gray-900">
+          Sacred Gallery
+        </h2>
+        <p class="text-gray-500 max-w-md mx-auto">
+          Explore the divine beauty and spiritual moments captured at our temple
+        </p>
+      </div>
 
-    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      <?php
-      $image_count = count($mandir_images);
-      for ($i = 0; $i < 8; $i++):
-        if ($i < $image_count) {
-          $image = $mandir_images[$i];
-          $image_src = "/mandirsewa/" . $image['url'];
-        } else {
-          $image_src = "https://picsum.photos/seed/mandir" . $i . "/500/400.jpg";
-        }
-      ?>
-        <div class="relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
-          <img
-            src="<?= $image_src ?>"
-            alt="<?= $image['image_name'] ?? 'Mandir Image ' . ($i + 1) ?>"
-            class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
-          <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        </div>
-      <?php endfor; ?>
-    </div>
-  </section>
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <?php foreach ($mandir_images as $image): ?>
+          <div class="relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+            <img
+              src="/mandirsewa/<?= $image['url'] ?>"
+              alt="<?= $image['image_name'] ?>"
+              class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" />
+            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </section>
+  <?php endif; ?>
 
   <!-- CAMPAIGNS & EVENTS SECTION -->
   <?php if (count($campaigns) > 0): ?>
@@ -207,6 +233,50 @@ $mandir_images = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
                   </button>
                 </div>
               </div>
+            </div>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    </section>
+  <?php endif; ?>
+
+  <!-- ANNOUNCEMENTS SECTION -->
+  <?php if (count($all_announcements) > 0): ?>
+    <section class="space-y-8">
+      <div class="text-center space-y-3">
+        <h2 class="text-2xl font-bold text-gray-900">
+          Announcements
+        </h2>
+        <p class="text-gray-500 max-w-md mx-auto">
+          Important updates and news from the temple
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <?php foreach ($all_announcements as $announcement): ?>
+          <?php
+          $now_ts = time();
+          $start_ts = strtotime($announcement['start_date']);
+          $end_ts = strtotime($announcement['end_date']);
+          $is_active = ($now_ts >= $start_ts && $now_ts <= $end_ts);
+          ?>
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow duration-300">
+            <?php if ($announcement['image']): ?>
+              <img src="/mandirsewa/<?= $announcement['image'] ?>" alt="<?= $announcement['title'] ?>" class="w-full h-40 object-cover">
+            <?php endif; ?>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2">
+                <?php if ($is_active): ?>
+                  <span class="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                    Active
+                  </span>
+                <?php endif; ?>
+                <span class="text-xs text-gray-400">
+                  <?= date('M d', strtotime($announcement['start_date'])) ?> - <?= date('M d, Y', strtotime($announcement['end_date'])) ?>
+                </span>
+              </div>
+              <h3 class="text-base font-semibold text-gray-900 mb-2"><?= $announcement['title'] ?></h3>
+              <p class="text-sm text-gray-600 line-clamp-3"><?= $announcement['description'] ?></p>
             </div>
           </div>
         <?php endforeach; ?>
@@ -366,6 +436,20 @@ $mandir_images = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     product_code: "EPAYTEST",
     secret: "8gBm/:&EnhH.1/q"
   })
+
+
+
+  <?php foreach ($active_announcements as $announcement) {
+  ?>
+
+    $('#announcementModal<?= $announcement['id'] ?>').modal({
+      closeExisting: false,
+
+      fadeDuration: 100
+
+    });
+
+  <?php } ?>
 </script>
 
 <script>
