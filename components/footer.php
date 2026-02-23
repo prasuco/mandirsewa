@@ -12,7 +12,7 @@
 
     <!-- Center Links -->
     <div class="flex items-center gap-8 text-gray-700 text-sm font-medium">
-      <a href="/about" class="hover:text-gray-900 transition">About </a>
+      <a href="/mandirsewa/about.php" class="hover:text-gray-900 transition">About </a>
       <a href="/contact" class="hover:text-gray-900 transition">Contact</a>
       <a href="/ourteam" class="hover:text-gray-900 transition">Our Team</a>
     </div>
