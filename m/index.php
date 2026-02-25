@@ -4,18 +4,26 @@ include '../components/header.php';
 
 $mandir_slug = $_GET['mandir'];
 
-$sql = "SELECT * FROM mandirs WHERE slug = '$mandir_slug' LIMIT 1 ";
-
+$sql = "SELECT * FROM mandirs WHERE slug = '$mandir_slug' LIMIT 1";
 $mandir = mysqli_query($conn, $sql)->fetch_assoc();
 
-if (!$mandir) {
-  die(404);
-}
+if (!$mandir) die(404);
 
 $mandir_id = $mandir['id'];
 
 $sql = "SELECT * FROM `campaigns` WHERE `created_by_mandir` = $mandir_id AND `type` = 'campaign'";
 $campaigns = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
+
+foreach ($campaigns as &$campaign) {
+  $cid = $campaign['id'];
+  $sql_raised = "SELECT COALESCE(SUM(amount_paid), 0) as raised FROM `donations` WHERE `campaign_id` = $cid";
+  $result = mysqli_query($conn, $sql_raised)->fetch_assoc();
+  $campaign['raised'] = $result['raised'] ?? 0;
+  $campaign['percent'] = ($campaign['target_amount'] > 0)
+    ? min(100, round(($campaign['raised'] / $campaign['target_amount']) * 100))
+    : 0;
+}
+unset($campaign);
 
 $sql = "SELECT * FROM `faqs` WHERE `created_by_mandir` = $mandir_id";
 $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
@@ -29,187 +37,197 @@ $mandir_images = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 $now = date('Y-m-d H:i:s');
 $sql = "SELECT * FROM `announcements` WHERE `created_by_mandir` = $mandir_id AND start_date <= '$now' AND end_date >= '$now' ORDER BY id DESC";
 $active_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
-
-$sql = "SELECT * FROM `announcements` WHERE `created_by_mandir` = $mandir_id ORDER BY id DESC LIMIT 5";
-$all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
-
 ?>
 
 
-<!-- HERO SECTION -->
-<section class="bg-gray-50 ">
-  <!-- announcement modals -->
-  <?php foreach ($active_announcements as  $announcement) { ?>
-    <div id="announcementModal<?= $announcement['id'] ?>" class="modal bg-white max-w-lg! ">
-      <?php if ($announcement['image']) { ?>
-        <img src="/mandirsewa/<?= $announcement['image'] ?>" alt="<?= $announcement['title'] ?>" class="w-full h-48 object-cover">
-      <?php } ?>
-      <div class="p-6">
-        <div class="flex items-center justify-between mb-3">
-          <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-white">
-            <i class="fas fa-bullhorn mr-1"></i> Announcement
-          </span>
+<!-- ======== MODALS ======== -->
 
-        </div>
-        <h3 class="text-xl font-bold text-gray-900 mb-3"><?= $announcement['title'] ?></h3>
-        <p class="text-gray-600 leading-relaxed"><?= $announcement['description'] ?></p>
-        <div class="mt-4 pt-4 border-t border-gray-100">
-          <p class="text-xs text-gray-400">
-            <i class="fas fa-calendar-alt mr-1"></i>
-            Valid until <?= date('M d, Y', strtotime($announcement['end_date'])) ?>
-          </p>
-        </div>
-      </div>
-    </div>
-  <?php } ?>
-
-  <script>
-    <?php foreach ($active_announcements as $announcement) {
-    ?>
-      $('#announcementModal<?= $announcement['id'] ?>').modal({
-        closeExisting: false,
-        fadeDuration: 100
-      });
-    <?php } ?>
-  </script>
-
-  <!-- CAMPAIGN MODALS -->
-  <?php foreach ($campaigns as $campaign): ?>
-    <div id="campaignModal<?= $campaign['id'] ?>" class="modal bg-white max-w-lg! ">
-      <div class="p-2 space-y-4">
-        <div class="flex items-center justify-between">
-          <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-white">
-            <?= ucfirst($campaign['type']) ?>
-          </span>
-
-        </div>
-
-        <h3 class="text-xl font-bold text-gray-900"><?= $campaign['name'] ?></h3>
-        <p class="text-gray-600 text-sm leading-relaxed"><?= $campaign['description'] ?></p>
-
-        <?php if ($campaign['content']): ?>
-          <div class="text-gray-600 text-sm leading-relaxed border-t border-gray-100 pt-4">
-            <?= $campaign['content'] ?>
-          </div>
-        <?php endif; ?>
-
-        <?php if ($campaign['target_amount']): ?>
-          <div class="bg-gray-50 rounded-lg p-4 space-y-2">
-            <div class="flex justify-between text-sm">
-              <span class="text-gray-500">Target Amount</span>
-              <span class="font-bold text-gray-900">NPR <?= number_format($campaign['target_amount']) ?></span>
-            </div>
-          </div>
-        <?php endif; ?>
-
-        <div class="bg-primary/5 rounded-lg p-4 space-y-3 border-t border-gray-100 pt-4">
-          <h4 class="text-sm font-semibold text-gray-800">Support this Campaign</h4>
-          <input
-            type="number"
-            id="campaign_amount_<?= $campaign['id'] ?>"
-            placeholder="Enter amount (NPR)"
-            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-primary" />
-          <button
-            onclick="donateToCampaign(<?= $campaign['id'] ?>)"
-            class="w-full btn-primary">
-            Donate Now
-          </button>
-          <p class="text-xs text-gray-400 text-center">
-            <i class="fas fa-shield-alt mr-1"></i>
-            Secure payment via eSewa
-          </p>
-        </div>
-      </div>
-    </div>
-  <?php endforeach; ?>
-
-  <div class="max-w-7xl mx-auto px-6 py-16">
-    <div class="text-center space-y-8">
-      <div class="inline-flex items-center justify-center ">
-        <img
-          src="/mandirsewa/<?= $mandir['logo'] ?? "default_mandir_logo.webp" ?>"
-          class="w-32 h-32 rounded-full shadow-lg border-4 border-white"
-          alt="<?= $mandir['name'] ?>" />
-        <span class="inline-flex relative top-10   right-4   items-center p-1 rounded-full  text-green-700 text-lg font-medium">
-          <i class="fas fa-check-circle "></i>
-
-        </span>
-      </div>
-
-      <div class="space-y-4">
-        <h1 class="text-5xl font-bold text-gray-900"><?= $mandir['name'] ?></h1>
-
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-          <?= $mandir['description'] ?>
-        </p>
-      </div>
-
-      <div class="flex items-center justify-center gap-4">
-        <?php if ($mandir['facebook']): ?>
-          <a href="<?= $mandir['facebook'] ?>" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
-            <i class="fab fa-facebook-f mr-2"></i>
-            Facebook
-          </a>
-        <?php endif; ?>
-
-        <?php if ($mandir['youtube']): ?>
-          <a href="<?= $mandir['youtube'] ?>" target="_blank" class="inline-flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition">
-            <i class="fab fa-youtube mr-2"></i>
-            YouTube
-          </a>
-        <?php endif; ?>
-
-        <?php if ($mandir['website']): ?>
-          <a href="<?= $mandir['website'] ?>" target="_blank" class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition">
-            <i class="fas fa-external-link-alt mr-2"></i>
-            Website
-          </a>
-        <?php endif; ?>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- MAIN CONTENT -->
-<main class="max-w-7xl mx-auto px-6 py-12 space-y-20">
-
-  <!-- ABOUT SECTION -->
-  <section class="space-y-8">
-    <div class="space-y-3">
-      <h2 class="text-2xl font-bold text-gray-900">
-        About the Mandir
-      </h2>
-      <p class="text-gray-500 max-w-md">
-        Learn about our history, traditions, and spiritual significance
+<?php foreach ($active_announcements as $announcement): ?>
+  <div id="announcementModal<?= $announcement['id'] ?>" class="modal bg-white max-w-lg!">
+    <?php if ($announcement['image']): ?>
+      <img src="/mandirsewa/<?= $announcement['image'] ?>" alt="<?= $announcement['title'] ?>" class="w-full h-48 object-cover">
+    <?php endif; ?>
+    <div class="p-6 space-y-3">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary uppercase tracking-wide">
+        <i class="fas fa-bullhorn"></i> Announcement
+      </span>
+      <h3 class="text-xl font-bold text-gray-900"><?= $announcement['title'] ?></h3>
+      <p class="text-sm text-gray-600 leading-relaxed"><?= $announcement['description'] ?></p>
+      <p class="text-xs text-gray-400 pt-3 border-t border-gray-100">
+        <i class="fas fa-calendar-alt mr-1"></i> Valid until <?= date('M d, Y', strtotime($announcement['end_date'])) ?>
       </p>
     </div>
-    <div class="prose prose-sm wrap-anywhere text-gray-700 leading-relaxed">
-      <?= $mandir['about_content'] ?>
+  </div>
+<?php endforeach; ?>
+
+<script>
+  <?php foreach ($active_announcements as $announcement): ?>
+    $('#announcementModal<?= $announcement['id'] ?>').modal({
+      closeExisting: false,
+      fadeDuration: 100
+    });
+  <?php endforeach; ?>
+</script>
+
+<?php foreach ($campaigns as $campaign): ?>
+  <div id="campaignModal<?= $campaign['id'] ?>" class="modal bg-white max-w-lg!">
+    <div class="p-6 space-y-4">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-primary uppercase tracking-wide">
+        <i class="fas fa-hand-holding-heart"></i> Campaign
+      </span>
+      <h3 class="text-xl font-bold text-gray-900"><?= $campaign['name'] ?></h3>
+      <p class="text-sm text-gray-600 leading-relaxed"><?= $campaign['description'] ?></p>
+      <?php if ($campaign['content']): ?>
+        <div class="text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4"><?= $campaign['content'] ?></div>
+      <?php endif; ?>
+      <?php if ($campaign['target_amount']): ?>
+        <div class="bg-gray-50 rounded-xl p-4 space-y-2">
+          <div class="flex justify-between items-baseline">
+            <span class="text-sm font-semibold text-gray-900">NPR <?= number_format($campaign['raised']) ?> <span class="text-xs font-normal text-gray-400">raised</span></span>
+            <span class="text-sm font-bold text-primary"><?= $campaign['percent'] ?>%</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2">
+            <div class="bg-primary h-2 rounded-full" style="width: <?= $campaign['percent'] ?>%"></div>
+          </div>
+          <p class="text-xs text-gray-400">Goal: NPR <?= number_format($campaign['target_amount']) ?></p>
+        </div>
+      <?php endif; ?>
+      <div class="space-y-3 pt-1">
+        <input type="number" id="campaign_amount_<?= $campaign['id'] ?>" placeholder="Enter amount (NPR)" class="w-full form-input" />
+        <button onclick="donateToCampaign(<?= $campaign['id'] ?>)" class="w-full btn-primary">Donate Now</button>
+        <p class="text-xs text-gray-400 text-center"><i class="fas fa-shield-alt mr-1"></i>Secure payment via eSewa</p>
+      </div>
+    </div>
+  </div>
+<?php endforeach; ?>
+
+<?php foreach ($events as $event): ?>
+  <div id="eventModal<?= $event['id'] ?>" class="modal bg-white max-w-lg!">
+    <div class="p-6 space-y-4">
+      <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-secondary uppercase tracking-wide">
+        <i class="fas fa-calendar-alt"></i> Upcoming Event
+      </span>
+      <h3 class="text-xl font-bold text-gray-900"><?= $event['name'] ?></h3>
+      <p class="text-sm text-gray-600 leading-relaxed"><?= $event['description'] ?></p>
+      <?php if ($event['content']): ?>
+        <div class="text-sm text-gray-600 leading-relaxed border-t border-gray-100 pt-4"><?= $event['content'] ?></div>
+      <?php endif; ?>
+    </div>
+  </div>
+<?php endforeach; ?>
+
+
+<!-- ======== HERO ======== -->
+<section class="bg-gray-50 border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-6 py-16 text-center space-y-6">
+    <div class="relative inline-flex">
+      <img
+        src="/mandirsewa/<?= $mandir['logo'] ?? 'default_mandir_logo.webp' ?>"
+        class="w-28 h-28 rounded-full border-4 border-white shadow-md"
+        alt="<?= $mandir['name'] ?>" />
+      <span class="absolute bottom-1 right-1 text-green-500 bg-white rounded-full text-lg leading-none shadow-sm">
+        <i class="fas fa-check-circle"></i>
+      </span>
+    </div>
+
+    <div>
+      <h1 class="text-4xl font-bold text-gray-900"><?= $mandir['name'] ?></h1>
+      <p class="mt-3 text-gray-500 max-w-2xl mx-auto leading-relaxed"><?= $mandir['description'] ?></p>
+    </div>
+
+    <div class="flex items-center justify-center gap-2 flex-wrap">
+      <?php if ($mandir['facebook']): ?>
+        <a href="<?= $mandir['facebook'] ?>" target="_blank" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
+          <i class="fab fa-facebook-f mr-2"></i>Facebook
+        </a>
+      <?php endif; ?>
+      <?php if ($mandir['youtube']): ?>
+        <a href="<?= $mandir['youtube'] ?>" target="_blank" class="inline-flex items-center px-4 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition">
+          <i class="fab fa-youtube mr-2"></i>YouTube
+        </a>
+      <?php endif; ?>
+      <?php if ($mandir['website']): ?>
+        <a href="<?= $mandir['website'] ?>" target="_blank" class="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-white transition">
+          <i class="fas fa-external-link-alt mr-2"></i>Website
+        </a>
+      <?php endif; ?>
+    </div>
   </div>
 </section>
 
 
-<!-- IMAGE GALLERY -->
-  <?php if (count($mandir_images) > 0): ?>
-    <section class="space-y-8">
-      <div class="space-y-3">
-        <h2 class="text-2xl font-bold text-gray-900">
-          Sacred Gallery
-        </h2>
-        <p class="text-gray-500 max-w-xl">
-          Explore the divine beauty and spiritual moments captured at our temple
-        </p>
-      </div>
+<!-- ======== MAIN CONTENT ======== -->
+<main class="max-w-7xl mx-auto px-6 py-14 space-y-20">
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <!-- ABOUT + FAQ -->
+  <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+    <div class="space-y-5">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shrink-0">
+          <i class="fas fa-om text-white text-sm"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-gray-900">About the Mandir</h2>
+          <p class="text-xs text-gray-400">History, traditions & spiritual significance</p>
+        </div>
+      </div>
+      <div class="prose prose-sm text-gray-600 leading-relaxed wrap-anywhere">
+        <?= $mandir['about_content'] ?>
+      </div>
+    </div>
+
+    <?php if (!empty($faqs)): ?>
+      <div class="space-y-5">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center shrink-0">
+            <i class="fas fa-question text-white text-sm"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-gray-900">Frequently Asked Questions</h2>
+            <p class="text-xs text-gray-400">Quick answers to common questions</p>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <?php foreach ($faqs as $faq): ?>
+            <details class="group border border-gray-200 rounded-xl overflow-hidden bg-white">
+              <summary class="flex items-center justify-between px-5 py-3.5 cursor-pointer list-none hover:bg-gray-50 transition-colors">
+                <span class="text-sm font-medium text-gray-800"><?= $faq['question'] ?></span>
+                <i class="fas fa-chevron-down text-xs text-gray-400 group-open:rotate-180 transition-transform duration-200 shrink-0 ml-3"></i>
+              </summary>
+              <div class="px-5 pb-4 pt-3 text-sm text-gray-500 leading-relaxed border-t border-gray-100">
+                <?= $faq['answer'] ?>
+              </div>
+            </details>
+          <?php endforeach; ?>
+        </div>
+      </div>
+    <?php endif; ?>
+
+  </section>
+
+
+  <!-- GALLERY -->
+  <?php if (count($mandir_images) > 0): ?>
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shrink-0">
+          <i class="fas fa-images text-white text-sm"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-gray-900">Sacred Gallery</h2>
+          <p class="text-xs text-gray-400">Moments from our temple</p>
+        </div>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
         <?php foreach ($mandir_images as $image): ?>
-          <div class="relative group overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300">
+          <div class="relative group overflow-hidden rounded-xl aspect-square shadow-sm">
             <img
               src="/mandirsewa/<?= $image['url'] ?>"
               alt="<?= $image['image_name'] ?>"
-              class="w-full h-72 object-cover  transition-transform duration-500" />
-            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
-              <p class="text-white text-sm font-medium p-4 w-full bg-linear-to-t from-black/50 to-transparent"><?= $image['image_name'] ?></p>
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end">
+              <p class="text-white text-xs font-medium p-3"><?= $image['image_name'] ?></p>
             </div>
           </div>
         <?php endforeach; ?>
@@ -217,49 +235,43 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     </section>
   <?php endif; ?>
 
-  <!-- CAMPAIGNS & EVENTS SECTION -->
+
+  <!-- CAMPAIGNS -->
   <?php if (count($campaigns) > 0): ?>
-    <section class="space-y-8">
-      <div class="space-y-3">
-        <h2 class="text-2xl font-bold text-gray-900">
-          Current Campaigns
-        </h2>
-        <p class="text-gray-500 max-w-md">
-          Support our ongoing initiatives and help make a difference
-        </p>
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shrink-0">
+          <i class="fas fa-hand-holding-heart text-white text-sm"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-gray-900">Campaigns</h2>
+          <p class="text-xs text-gray-400">Support our ongoing initiatives</p>
+        </div>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         <?php foreach ($campaigns as $campaign): ?>
-          <div class="relative group bg-white  rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-shadow duration-300">
-            <div class="top-2  right-2 absolute bg-gray-200 p-1    rounded-full ">
+          <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden flex flex-col hover:shadow-lg transition-shadow duration-300">
+            <div class="px-5 pt-5 pb-4 flex flex-col flex-1 gap-3">
+              <h3 class="text-base font-bold text-gray-900 leading-snug"><?= $campaign['name'] ?></h3>
+              <p class="text-sm text-gray-500 line-clamp-2 leading-relaxed flex-1"><?= $campaign['description'] ?></p>
 
-              <i class="fas fa-calendar group-hover:rotate-12 duration-500   text-secondary   text-xl"></i>
-            </div>
-            <div class="p-6 space-y-4">
-              <div>
-                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-700">
-                  <?= ucfirst($campaign['type']) ?>
-                </span>
-              </div>
-
-              <h3 class="text-xl font-semibold text-gray-900"><?= $campaign['name'] ?></h3>
-              <p class="text-gray-600 text-sm line-clamp-3"><?= $campaign['description'] ?></p>
-
-              <?php if ($campaign['target_amount'] && $campaign['type'] == 'campaign'): ?>
-                <div class="space-y-2">
-                  <div class="flex justify-between text-sm">
-                    <span class="text-gray-500">Target</span>
-                    <span class="font-semibold text-gray-900">NPR <?= number_format($campaign['target_amount']) ?></span>
+              <?php if ($campaign['target_amount']): ?>
+                <div class="space-y-1.5">
+                  <div class="flex justify-between items-baseline text-xs">
+                    <span class="text-gray-500 font-medium">NPR <?= number_format($campaign['raised']) ?> raised</span>
+                    <span class="font-bold text-primary"><?= $campaign['percent'] ?>%</span>
                   </div>
+                  <div class="w-full bg-gray-100 rounded-full h-1.5">
+                    <div class="bg-primary h-1.5 rounded-full transition-all" style="width: <?= $campaign['percent'] ?>%"></div>
+                  </div>
+                  <p class="text-xs text-gray-400">Goal: NPR <?= number_format($campaign['target_amount']) ?></p>
                 </div>
               <?php endif; ?>
-
-              <div class="pt-4 border-t border-gray-100">
-                <a href="#campaignModal<?= $campaign['id'] ?>" rel="modal:open" class="w-full btn-primary inline-block text-center">
-                  Learn More
-                </a>
-              </div>
+            </div>
+            <div class="px-5 pb-5">
+              <a href="#campaignModal<?= $campaign['id'] ?>" rel="modal:open" class="btn-primary w-full text-center text-sm">
+                Donate Now
+              </a>
             </div>
           </div>
         <?php endforeach; ?>
@@ -267,35 +279,32 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     </section>
   <?php endif; ?>
 
-  <!-- UPCOMING EVENTS -->
+
+  <!-- EVENTS -->
   <?php if (count($events) > 0): ?>
-    <section class="space-y-8">
-      <div class="space-y-3">
-        <h2 class="text-2xl font-bold text-gray-900">
-          Upcoming Events
-        </h2>
-        <p class="text-gray-500 max-w-md">
-          Join us for special celebrations and spiritual gatherings
-        </p>
+    <section class="space-y-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-secondary flex items-center justify-center shrink-0">
+          <i class="fas fa-calendar-alt text-white text-sm"></i>
+        </div>
+        <div>
+          <h2 class="text-xl font-bold text-gray-900">Upcoming Events</h2>
+          <p class="text-xs text-gray-400">Special celebrations & gatherings</p>
+        </div>
       </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
         <?php foreach ($events as $event): ?>
-          <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
-            <div class="flex items-start space-x-4">
-              <div class="shrink-0 w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
-                <i class="fas fa-calendar text-secondary opacity-70"></i>
-              </div>
-
-              <div class="flex-1">
-                <h3 class="text-lg font-semibold text-gray-900"><?= $event['name'] ?></h3>
-                <p class="text-gray-600 text-sm mt-1"><?= $event['description'] ?></p>
-                <div class="mt-4">
-                  <button class="btn-primary btn-sm">
-                    Details
-                  </button>
-                </div>
-              </div>
+          <div class="bg-white rounded-2xl border border-gray-200 p-5 flex items-start gap-4 hover:shadow-lg transition-shadow duration-300">
+            <div class="shrink-0 w-11 h-11 rounded-xl bg-secondary/15 flex items-center justify-center">
+              <i class="fas fa-calendar-alt text-secondary"></i>
+            </div>
+            <div class="flex-1 min-w-0 space-y-1.5">
+              <h3 class="text-base font-bold text-gray-900"><?= $event['name'] ?></h3>
+              <p class="text-sm text-gray-500 line-clamp-2 leading-relaxed"><?= $event['description'] ?></p>
+              <a href="#eventModal<?= $event['id'] ?>" rel="modal:open"
+                class="inline-flex items-center gap-1.5 text-sm font-semibold text-secondary hover:underline pt-1">
+                View Details <i class="fas fa-arrow-right text-xs"></i>
+              </a>
             </div>
           </div>
         <?php endforeach; ?>
@@ -305,113 +314,86 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
 
   <!-- LOCATION & CONTACT -->
-  <section class="space-y-8">
-    <div class="space-y-3">
-      <h2 class="text-2xl font-bold text-gray-900">
-        Visit Us
-      </h2>
-      <p class="text-gray-500 max-w-md">
-        Find our location and get in touch with our temple community
-      </p>
+  <section class="space-y-6">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shrink-0">
+        <i class="fas fa-map-marker-alt text-white text-sm"></i>
+      </div>
+      <div>
+        <h2 class="text-xl font-bold text-gray-900">Visit Us</h2>
+        <p class="text-xs text-gray-400">Find us & get in touch</p>
+      </div>
     </div>
 
-    <div class="flex flex-row justify-between gap-4">
-      <div class="space-y-4">
-        <h3 class="text-lg font-semibold text-gray-900">Get in Touch</h3>
-
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+      <div class="bg-white rounded-2xl border border-gray-200 p-6 space-y-5">
+        <h3 class="text-sm font-semibold text-gray-700">Contact</h3>
         <div class="space-y-4">
-          <div class="flex items-center  space-x-3">
-            <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-              <i class="fas fa-phone text-gray-600"></i>
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+              <i class="fas fa-phone text-primary text-sm"></i>
             </div>
             <div>
-              <p class="text-sm font-medium text-gray-900">Primary Contact</p>
-              <p class="text-sm text-gray-600"><?= $mandir['primary_contact'] ?></p>
+              <p class="text-xs text-gray-400 font-medium">Primary Contact</p>
+              <p class="text-sm font-semibold text-gray-800"><?= $mandir['primary_contact'] ?></p>
             </div>
           </div>
-
           <?php if ($mandir['secondary_contact']): ?>
-            <div class="flex items-center flex-row space-x-3">
-              <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center">
-                <i class="fas fa-phone text-gray-600"></i>
+            <div class="flex items-center gap-4">
+              <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center shrink-0">
+                <i class="fas fa-phone text-primary text-sm"></i>
               </div>
               <div>
-                <p class="text-sm font-medium text-gray-900">Secondary Contact</p>
-                <p class="text-sm text-gray-600"><?= $mandir['secondary_contact'] ?></p>
+                <p class="text-xs text-gray-400 font-medium">Secondary Contact</p>
+                <p class="text-sm font-semibold text-gray-800"><?= $mandir['secondary_contact'] ?></p>
               </div>
             </div>
           <?php endif; ?>
-
-        
         </div>
       </div>
 
-      <div class="space-y-4 flex-1">
-
-        <div class="h-64 rounded-2xl overflow-hidden shadow-lg">
-          <iframe
-            class="w-full h-full"
-            src="https://maps.google.com/maps?q=<?= $mandir['address_lat'] ?>,<?= $mandir['address_long'] ?>&ie=UTF8&iwloc=&output=embed"
-            loading="lazy"
-            style="border:0;"
-            allowfullscreen>
-          </iframe>
-        </div>
+      <div class="h-64 lg:h-auto rounded-2xl overflow-hidden border border-gray-200 shadow-sm min-h-56">
+        <iframe
+          class="w-full h-full"
+          src="https://maps.google.com/maps?q=<?= $mandir['address_lat'] ?>,<?= $mandir['address_long'] ?>&ie=UTF8&iwloc=&output=embed"
+          loading="lazy"
+          style="border:0;"
+          allowfullscreen>
+        </iframe>
       </div>
     </div>
   </section>
 
-
 </main>
 
 
-<!-- Donation Modal -->
-<div id="donationModal" class="modal bg-gray-50! rounded-2xl p-6 text-black shadow-lg max-w-md mx-auto">
-  <!-- Icon + Title -->
-  <div class="text-center space-y-4">
-    <div class="w-12 h-12 rounded-full bg-primary flex items-center justify-center mx-auto text-white">
-      <i class="fas fa-donate text-xl"></i>
+<!-- DONATION MODAL -->
+<div id="donationModal" class="modal bg-white max-w-xl!">
+  <div class="p-2 space-y-4">
+    <div class="flex items-center gap-3">
+      <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shrink-0">
+        <i class="fas fa-donate"></i>
+      </div>
+      <div>
+        <h3 class="text-base font-bold text-gray-900">Support the Mandir</h3>
+        <p class="text-xs text-gray-400">Your donation supports daily seva</p>
+      </div>
     </div>
-
-    <div>
-      <h3 class="text-xl font-bold">Support the Mandir</h3>
-      <p class="text-gray-700 text-sm mt-1">
-        Your contribution supports daily seva and temple maintenance
-      </p>
-    </div>
-  </div>
-
-  <!-- Input + Button -->
-  <div class="mt-6 space-y-4">
-    <input
-      type="number"
-      id="amount_input"
-      placeholder="Amount (NPR)"
-      class="w-full form-input"
-    />
-
-    <button
-      id="donate_btn"
-      class="w-full btn btn-primary">
-      Donate Now
-    </button>
-
- 
+    <input type="number" id="amount_input" placeholder="Amount (NPR)" class="w-full form-input" />
+    <button id="donate_btn" class="w-full btn-primary">Donate Now</button>
+    <p class="text-xs text-gray-400 text-center"><i class="fas fa-shield-alt mr-1"></i>Secure payment via eSewa</p>
   </div>
 </div>
 
-<!-- donate now button -->
-<a href="#donationModal" rel="modal:open" class="animate-bounce  bottom-6 right-6 text-center flex items-center justify-center fixed   px-3 py-2 bg-secondary text-white rounded-full">
-  <p>
-  Donate Now
-  </p>
+
+<!-- FLOATING DONATE BUTTON -->
+<a href="#donationModal" rel="modal:open"
+  class="fixed bottom-6 right-6 inline-flex items-center gap-2 px-5 py-3 bg-secondary text-white text-sm font-semibold rounded-full shadow-lg hover:shadow-xl transition-shadow animate-bounce">
+  <i class="fas fa-donate"></i> Donate Now
 </a>
 
 
-
-<!-- for easy-sewa package -->
 <script src="/mandirsewa/public/js/easy-sewa.js"></script>
-
 <script>
   let easySewa = new EasySewa.EasySewa({
     environment: "development",
@@ -419,8 +401,7 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     success_url: "http://localhost/mandirsewa/success",
     product_code: "EPAYTEST",
     secret: "8gBm/:&EnhH.1/q"
-  })
-
+  });
 
   function donateToCampaign(campaignId) {
     let amount = $("#campaign_amount_" + campaignId).val();
@@ -428,7 +409,6 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
       alert("Please enter an amount");
       return;
     }
-
     $.ajax({
       url: "/mandirsewa/ajax/initiate-esewa.php",
       type: "POST",
@@ -453,14 +433,10 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
       }
     });
   }
-</script>
 
-<script>
   $("#donate_btn").click(() => {
     let amount = $("#amount_input").val();
-
     if (!amount) return;
-
     $.ajax({
       url: "/mandirsewa/ajax/initiate-esewa.php",
       type: "POST",
@@ -474,8 +450,6 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
           alert("Failed to initiate donation");
           return;
         }
-
-        // use transaction_uuid generated by backend
         easySewa.pay({
           amount: Number(amount),
           transaction_uuid: res.transaction_uuid
@@ -487,7 +461,5 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     });
   });
 </script>
-
-
 
 <?php include "../components/footer.php"; ?>

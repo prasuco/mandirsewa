@@ -43,22 +43,6 @@ $totalAmount = $totalAmountRow['total'] ?? 0;
     </div>
 </div>
 
-<div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 mb-4">
-    <div class="grid grid-cols-3 gap-4 text-center">
-        <div>
-            <p class="text-sm text-gray-500">Total Donations</p>
-            <p class="text-xl font-bold text-gray-800"><?= number_format($totalDonations) ?></p>
-        </div>
-        <div>
-            <p class="text-sm text-gray-500">Total Amount</p>
-            <p class="text-xl font-bold text-green-600">Rs. <?= number_format($totalAmount) ?></p>
-        </div>
-        <div>
-            <p class="text-sm text-gray-500">Current Page</p>
-            <p class="text-xl font-bold text-gray-800"><?= $page ?> of <?= $totalPages ?></p>
-        </div>
-    </div>
-</div>
 
 <div class="relative flex flex-col w-full h-full overflow-scroll text-gray-700 bg-clip-border">
     <table class="w-full text-left table-auto min-w-max text-slate-800">
