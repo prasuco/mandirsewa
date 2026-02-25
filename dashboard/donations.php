@@ -65,7 +65,7 @@ $totalAmount = $totalAmountRow['total'] ?? 0;
         <thead>
             <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
                 <th class="p-4">
-                    <p class="text-sm leading-none font-normal">Id</p>
+                    <p class="text-sm leading-none font-normal">S.No.</p>
                 </th>
                 <th class="p-4">
                     <p class="text-sm leading-none font-normal">Donor Name</p>
@@ -86,11 +86,12 @@ $totalAmount = $totalAmountRow['total'] ?? 0;
             </tr>
         </thead>
         <tbody>
-            <?php if (count($donations) > 0) { ?>
-                <?php foreach ($donations as $donation) { ?>
+            <?php if (count($donations) > 0): ?>
+                <?php foreach ($donations as $index => $donation) {
+                ?>
                     <tr class="hover:bg-slate-50">
                         <td class="p-4">
-                            <p class="text-sm font-bold"><?= $donation['id'] ?></p>
+                            <p class="text-sm font-bold"><?= ($index + 1) ?></p>
                         </td>
                         <td class="p-4">
                             <p class="text-sm"><?= $donation['donor_name'] ?? 'Anonymous' ?></p>
@@ -103,7 +104,7 @@ $totalAmount = $totalAmountRow['total'] ?? 0;
                             <p class="text-sm font-semibold text-green-600">Rs. <?= number_format($donation['amount_paid']) ?></p>
                         </td>
                         <td class="p-4">
-                            <p class="text-sm"><?= date('M d, Y H:i', ($donation['created_at'])) ?></p>
+                            <p class="text-sm"><?= date('M d, Y H:i', strtotime($donation['created_at'])) ?></p>
                         </td>
                         <td class="p-4">
                             <a href="/mandirsewa/generateReceipt.php?id=<?= $donation['id'] ?>" target="_blank" class="text-sm btn btn-primary font-semibold">
@@ -112,13 +113,13 @@ $totalAmount = $totalAmountRow['total'] ?? 0;
                         </td>
                     </tr>
                 <?php } ?>
-            <?php } else { ?>
+            <?php else: ?>
                 <tr>
                     <td colspan="7" class="p-8 text-center text-gray-500">
                         No donations yet
                     </td>
                 </tr>
-            <?php } ?>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>

@@ -3,7 +3,7 @@ $title = "Home";
 include "../components/dashboard/header.php";
 
 
-$sql = "select * from faqs where created_by_mandir = $current_mandir";
+$sql = "select * from faqs where created_by_mandir = $current_mandir ORDER BY id DESC";
 
 $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
@@ -32,19 +32,13 @@ $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
         <thead>
             <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
                 <th class="p-4">
-                    <p class="text-sm leading-none font-normal">
-                        Id
-                    </p>
+                    <p class="text-sm leading-none font-normal">S.No.</p>
                 </th>
                 <th class="p-4">
-                    <p class="text-sm leading-none font-normal">
-                        Question
-                    </p>
+                    <p class="text-sm leading-none font-normal">Question</p>
                 </th>
                 <th class="p-4">
-                    <p class="text-sm leading-none font-normal">
-                        Answer
-                    </p>
+                    <p class="text-sm leading-none font-normal">Answer</p>
                 </th>
 
                 <th class="p-4">
@@ -54,22 +48,18 @@ $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
         </thead>
         <tbody>
 
-            <?php foreach ($faqs as $faq) {  ?>
+            <?php foreach ($faqs as $index => $faq): 
+
+            ?>
                 <tr class="hover:bg-slate-50">
                     <td class="p-4">
-                        <p class="text-sm font-bold">
-                            <?= $faq['id'] ?>
-                        </p>
+                        <p class="text-sm font-bold"><?= ($index+1) ?></p>
                     </td>
                     <td class="p-4">
-                        <p class="text-sm">
-                            <?= $faq['question'] ?>
-                        </p>
+                        <p class="text-sm"><?= $faq['question'] ?></p>
                     </td>
                     <td class="p-4">
-                        <p class="text-sm">
-                            <?= $faq['answer'] ?>
-                        </p>
+                        <p class="text-sm"><?= $faq['answer'] ?></p>
                     </td>
 
                     <td class="p-4">
@@ -83,7 +73,7 @@ $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
                         </a>
                     </td>
                 </tr>
-            <?php }  ?>
+            <?php endforeach; ?>
 
         </tbody>
     </table>

@@ -3,7 +3,7 @@ $title = "Home";
 include "../components/dashboard/header.php";
 
 
-$sql = "select * from campaigns where created_by_mandir = $current_mandir";
+$sql = "select * from campaigns where created_by_mandir = $current_mandir ORDER BY id DESC";
 
 $campaigns = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
@@ -11,11 +11,14 @@ $donationsByCampaign = [];
 if (!empty($campaigns)) {
     $campaignIds = array_column($campaigns, 'id');
     $campaignIdsStr = implode(',', $campaignIds);
-    $donationsSql = "SELECT campaign_id, SUM(amount_paid) as total_donations FROM donations WHERE campaign_id IN ($campaignIdsStr) AND status='COMPLETED' GROUP BY campaign_id";
-    $donationsResult = mysqli_query($conn, $donationsSql);
-    while ($row = mysqli_fetch_assoc($donationsResult)) {
-        $donationsByCampaign[$row['campaign_id']] = $row['total_donations'];
-    }
+    $donationsSql = "SELECT campaign_id, SUM(amount_paid) as total_donations 
+                     FROM donations 
+                     WHERE campaign_id IN ($campaignIdsStr) AND status='COMPLETED' 
+                    GROUP BY campaign_id";
+    $donationsResult = mysqli_query($conn, $donationsSql)->fetch_all(MYSQLI_ASSOC);
+
+
+    $donationsByCampaign = array_column($donationsResult, 'total_donations', 'campaign_id');
 }
 ?>
 
@@ -42,7 +45,7 @@ if (!empty($campaigns)) {
         <thead>
             <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
                 <th class="p-4">
-                    <p class="text-sm leading-none font-normal">Id</p>
+                    <p class="text-sm leading-none font-normal">S.No.</p>
                 </th>
                 <th class="p-4">
                     <p class="text-sm leading-none font-normal">Campaign Name</p>
@@ -66,14 +69,15 @@ if (!empty($campaigns)) {
         </thead>
         <tbody>
 
-            <?php foreach ($campaigns as $campaign): 
+            <?php foreach ($campaigns as $index => $campaign):
                 $raised = $donationsByCampaign[$campaign['id']] ?? 0;
                 $target = $campaign['target_amount'] ?? 0;
                 $progress = $target > 0 ? min(100, round(($raised / $target) * 100)) : 0;
+
             ?>
                 <tr class="hover:bg-slate-50">
                     <td class="p-4">
-                        <p class="text-sm font-bold"><?= $campaign['id'] ?></p>
+                        <p class="text-sm font-bold"><?= ($index + 1) ?></p>
                     </td>
                     <td class="p-4">
                         <p class="text-sm"><?= $campaign['name'] ?></p>
@@ -85,31 +89,32 @@ if (!empty($campaigns)) {
                         <p class="text-sm">Rs. <?= number_format($raised) ?></p>
                     </td>
                     <td class="p-4">
-                        <div class="w-24">
-                            <div class="flex justify-between text-xs text-gray-500 mb-1">
-                                <span><?= $progress ?>%</span>
+                        <?php if ($campaign['type'] == "campaign") { ?>
+                            <div class="w-24">
+                                <div class="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span><?= $progress ?>%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-2">
+
+                                    <div class="bg-primary h-2 rounded-full" style="width: <?= $progress ?>%"></div>
+                                </div>
                             </div>
-                            <div class="w-full bg-gray-200 rounded-full h-2">
-                                <div class="bg-primary h-2 rounded-full" style="width: <?= $progress ?>%"></div>
-                            </div>
-                        </div>
+                        <?php } else { ?>
+
+
+
+                        <?php } ?>
                     </td>
                     <td class="p-4">
                         <p class="text-sm capitalize"><?= $campaign['type'] ?></p>
                     </td>
                     <td class="p-4">
-                        <button type="button" 
-                            onclick="openEditCampaignModal(
-                                <?= $campaign['id'] ?>,
-                                '<?= addslashes($campaign['name']) ?>',
-                                '<?= addslashes($campaign['description'] ?? '') ?>',
-                                '<?= addslashes($campaign['content'] ?? '') ?>',
-                                '<?= $campaign['target_amount'] ?>',
-                                '<?= $campaign['type'] ?>'
-                            )"
-                            class="text text-blue-600 hover:text-blue--sm font-semibold700 mr-3">
+                        <a
+                            href="#editModal-<?= $campaign['id'] ?>"
+                            rel="modal:open"
+                            class="text-blue-600 hover:text-blue-700 text-sm font-semibold mr-3">
                             Edit
-                        </button>
+                        </a>
                         <a href="delete-campaign.php?id=<?= $campaign['id'] ?>" onclick="return confirm('Delete this campaign?')" class="text-sm font-semibold text-red-600 hover:text-red-700">
                             Delete
                         </a>

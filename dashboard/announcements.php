@@ -24,7 +24,7 @@ $announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
             <thead>
                 <tr class="text-slate-500 border-b border-slate-300 bg-slate-50">
                     <th class="p-4">
-                        <p class="text-sm leading-none font-normal">Id</p>
+                        <p class="text-sm leading-none font-normal">S.No.</p>
                     </th>
                     <th class="p-4">
                         <p class="text-sm leading-none font-normal">Title</p>
@@ -47,15 +47,16 @@ $announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($announcements as $announcement): 
+                <?php foreach ($announcements as $index => $announcement):
                     $now = time();
                     $start = strtotime($announcement['start_date']);
                     $end = strtotime($announcement['end_date']);
                     $is_active = ($now >= $start && $now <= $end);
+
                 ?>
                     <tr class="hover:bg-slate-50">
                         <td class="p-4">
-                            <p class="text-sm font-bold"><?= $announcement['id'] ?></p>
+                            <p class="text-sm font-bold"><?= ($index + 1) ?></p>
                         </td>
                         <td class="p-4">
                             <p class="text-sm"><?= $announcement['title'] ?></p>
@@ -81,7 +82,7 @@ $announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
                             <?php endif; ?>
                         </td>
                         <td class="p-4">
-                            <button type="button" 
+                            <button type="button"
                                 onclick="openEditAnnouncementModal(
                                     <?= $announcement['id'] ?>,
                                     '<?= addslashes($announcement['title']) ?>',

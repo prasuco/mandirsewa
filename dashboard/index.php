@@ -20,6 +20,14 @@ if ($current_mandir) {
 
     $sql = "select count(id) as faq from faqs where created_by_mandir = $current_mandir    ";
     $faqs = mysqli_query($conn, $sql)->fetch_assoc();
+
+    $recentDonationsSql = "SELECT d.*, c.name as campaign_name 
+                          FROM donations d 
+                          LEFT JOIN campaigns c ON d.campaign_id = c.id 
+                          WHERE d.mandir_id = $current_mandir AND d.status='COMPLETED' 
+                          ORDER BY d.id DESC 
+                          LIMIT 5";
+    $recentDonations = mysqli_query($conn, $recentDonationsSql)->fetch_all(MYSQLI_ASSOC);
 }
 ?>
 <!-- here comes create mandir form -->
@@ -44,7 +52,6 @@ if ($current_mandir) {
 
                     <p class="">
                         <i class="fa-solid fa-wallet"></i>
-
                     </p>
 
                 </div>
@@ -161,6 +168,45 @@ if ($current_mandir) {
             </div>
         </div>
     </div>
+
+    <?php if (!empty($recentDonations)): ?>
+        <div class="mt-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-800">Recent Donations</h3>
+                <a href="donations.php" class="text-sm text-primary hover:underline">View All</a>
+            </div>
+            <div class="bg-white shadow rounded-lg overflow-hidden">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-slate-50 text-slate-500">
+                        <tr>
+                            <th class="p-3">S.No.</th>
+                            <th class="p-3">Donor</th>
+                            <th class="p-3">Campaign</th>
+                            <th class="p-3">Amount</th>
+                            <th class="p-3">Date</th>
+                            <th class="p-3">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($recentDonations as $index => $donation): ?>
+                            <tr class="border-t border-gray-100 hover:bg-slate-50">
+                                <td class="p-3 font-bold"><?= $index + 1 ?></td>
+                                <td class="p-3"><?= $donation['donor_name'] ?? 'Anonymous' ?></td>
+                                <td class="p-3"><?= $donation['campaign_name'] ?? 'General' ?></td>
+                                <td class="p-3 font-semibold text-green-600">Rs. <?= number_format($donation['amount_paid']) ?></td>
+                                <td class="p-3 text-gray-500"><?= date('M d, Y', strtotime($donation['created_at'])) ?></td>
+                                <td class="p-3">
+                                    <a href="/mandirsewa/generateReceipt.php?id=<?= $donation['id'] ?>" target="_blank" class="text-primary hover:underline">
+                                        <i class="fa-solid fa-receipt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <?php endif; ?>
 
 <?php } ?>
 

@@ -50,7 +50,9 @@ $mandir = mysqli_query($conn, $sql)->fetch_assoc();
                 name="slug"
                 class="form-input"
                 value="<?= htmlspecialchars($mandir['slug']) ?>"
-                placeholder="shiva-mandir">
+                placeholder="shiva-mandir"
+                readonly
+                disabled>
         </div>
     </div>
 
