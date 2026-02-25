@@ -20,6 +20,18 @@ function redirect_if_no_mandir_selected()
     }
 }
 
+function redirect_if_not_admin()
+{
+    if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
+        header("Location: /mandirsewa/dashboard");
+    }
+}
+
+function is_admin()
+{
+    return isset($_SESSION['role']) && $_SESSION['role'] === 'admin';
+}
+
 
 function get_active_class($request_url, $link)
 {

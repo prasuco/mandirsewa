@@ -21,8 +21,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
       $_SESSION['email'] = $user['email'];
       $_SESSION['id'] = $user['id'];
+      $_SESSION['role'] = $user['role'];
       $_SESSION['message'] = "Logged in Successfully";
-      header("Location: /mandirsewa/dashboard");
+      
+      if ($user['role'] === 'admin') {
+        header("Location: /mandirsewa/admin");
+      } else {
+        header("Location: /mandirsewa/dashboard");
+      }
     } else {
       $_SESSION['message'] = "password doesnot match";
     }

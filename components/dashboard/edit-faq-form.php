@@ -1,5 +1,6 @@
+<?php foreach($faqs as $faq){ ?>
 <form
-    id="editFAQForm"
+    id="editModal-<?= $faq['id'] ?>"
     method="post"
     action="edit-faq.php"
     enctype="multipart/form-data"
@@ -14,16 +15,16 @@
         </p>
     </div>
 
-    <input type="hidden" name="id" id="editFaqId">
+    <input type="hidden" name="id" value="<?= $faq['id'] ?>">
 
     <div class="form-group">
         <label class="form-label">Question</label>
-        <input name="question" id="editQuestion" class="form-input" placeholder="What are the temple hours?">
+        <input name="question" class="form-input" value="<?= htmlspecialchars($faq['question']) ?>" placeholder="What are the temple hours?">
     </div>
 
     <div class="form-group">
         <label class="form-label">Answer</label>
-        <textarea name="answer" id="editAnswer" class="form-textarea" placeholder="The temple is open from 5 AM to 9 PM..."></textarea>
+        <textarea name="answer" class="form-textarea" placeholder="The temple is open from 5 AM to 9 PM..."><?= htmlspecialchars($faq['answer']) ?></textarea>
     </div>
 
     <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
@@ -33,18 +34,4 @@
     </div>
 
 </form>
-
-<script>
-    function openEditFAQModal(id, question, answer) {
-        $('#sidebar').css('z-index', 'unset')
-        $('#topbar').css('z-index', 'unset')
-
-        $("#editFaqId").val(id);
-        $("#editQuestion").val(question);
-        $("#editAnswer").val(answer);
-
-        $("#editFAQForm").modal({
-            fadeDuration: 100,
-        });
-    }
-</script>
+<?php } ?>

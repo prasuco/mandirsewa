@@ -7,10 +7,86 @@ $sql = "SELECT * FROM mandirs WHERE id = '$current_mandir' LIMIT 1 ";
 
 $mandir = mysqli_query($conn, $sql)->fetch_assoc();
 
+$kycSql = "SELECT * FROM kyc_verifications WHERE mandir_id = '$current_mandir' ORDER BY id DESC LIMIT 1";
+$kyc = mysqli_query($conn, $kycSql)->fetch_assoc();
 
 ?>
 
 <link href="/mandirsewa/public/css/quill.snow.css" rel="stylesheet" />
+
+<!-- KYC Status Banner -->
+<?php 
+$kycStatusClass = 'bg-gray-50 border-gray-200';
+$kycIconClass = 'bg-gray-100 text-gray-600';
+$kycTitle = 'Verification Not Started';
+$kycDesc = 'Submit KYC documents to verify your mandir';
+
+if ($mandir['is_verified']) {
+    $kycStatusClass = 'bg-green-50 border-green-200';
+    $kycIconClass = 'bg-green-100 text-green-600';
+    $kycTitle = 'Mandir Verified';
+    $kycDesc = 'Your mandir is verified and visible to public';
+} elseif ($kyc && $kyc['status'] === 'pending') {
+    $kycStatusClass = 'bg-amber-50 border-amber-200';
+    $kycIconClass = 'bg-amber-100 text-amber-600';
+    $kycTitle = 'Verification Pending';
+    $kycDesc = 'Your KYC is under review. Submitted on ' . date('M d, Y', strtotime($kyc['submitted_at']));
+} elseif ($kyc && $kyc['status'] === 'rejected') {
+    $kycStatusClass = 'bg-red-50 border-red-200';
+    $kycIconClass = 'bg-red-100 text-red-600';
+    $kycTitle = 'Verification Rejected';
+    $kycDesc = 'Your KYC was rejected. Please submit new documents.';
+}
+?>
+<div class="mb-6 p-4 rounded-xl <?= $kycStatusClass ?>">
+    <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 <?= $kycIconClass ?> rounded-full flex items-center justify-center">
+                <i class="fas <?= $mandir['is_verified'] ? 'fa-check-circle' : 'fa-clock' ?>"></i>
+            </div>
+            <div>
+                <p class="font-semibold text-gray-800"><?= $kycTitle ?></p>
+                <p class="text-sm text-gray-600"><?= $kycDesc ?></p>
+            </div>
+        </div>
+        
+        <?php if (!$mandir['is_verified'] && (!$kyc || $kyc['status'] === 'rejected')): ?>
+            <button type="button" onclick="$('#kycModal').modal({fadeDuration: 100})" class="btn-primary text-sm">
+                <?= $kyc && $kyc['status'] === 'rejected' ? 'Resubmit KYC' : 'Submit KYC' ?>
+            </button>
+        <?php elseif ($kyc && $kyc['status'] === 'pending'): ?>
+            <span class="text-sm text-amber-600">Under Review</span>
+        <?php endif; ?>
+    </div>
+</div>
+
+<!-- KYC Modal -->
+<div id="kycModal" class="modal bg-white rounded-xl p-6 max-w-lg!">
+    <h3 class="text-lg font-semibold text-gray-900 mb-4">Submit KYC Documents</h3>
+    
+    <form method="post" action="add-kyc.php" enctype="multipart/form-data" class="space-y-4">
+        <div>
+            <label class="form-label">Document Type</label>
+            <select name="document_type" class="form-input" required>
+                <option value="">Select document type</option>
+                <option value="registration">Temple Registration Certificate</option>
+                <option value="pan">PAN/VAT Certificate</option>
+                <option value="identity">Owner Identity Document</option>
+                <option value="other">Other Legal Document</option>
+            </select>
+        </div>
+        
+        <div>
+            <label class="form-label">Upload Document</label>
+            <input type="file" name="document" accept="image/*,.pdf" class="form-input" required>
+            <p class="text-xs text-gray-500 mt-1">Upload clear image or PDF of your document</p>
+        </div>
+        
+        <div class="flex justify-end gap-3 pt-4 border-t">
+            <button type="submit" name="submit_kyc" class="btn-primary">Submit for Verification</button>
+        </div>
+    </form>
+</div>
 
 <form
 

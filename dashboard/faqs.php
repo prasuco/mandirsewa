@@ -63,11 +63,9 @@ $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
                     </td>
 
                     <td class="p-4">
-                        <button type="button" 
-                            onclick="openEditFAQModal(<?= $faq['id'] ?>, '<?= addslashes($faq['question']) ?>', '<?= addslashes($faq['answer']) ?>')"
-                            class="text-sm font-semibold text-blue-600 hover:text-blue-700 mr-3">
+                        <a href="#editModal-<?= $faq['id'] ?>" rel="modal:open" class="text-sm font-semibold text-blue-600 hover:text-blue-700 mr-3">
                             Edit
-                        </button>
+                        </a>
                         <a href="delete-faq.php?id=<?= $faq['id'] ?>" onclick="return confirm('Delete this FAQ?')" class="text-sm font-semibold text-red-600 hover:text-red-700">
                             Delete
                         </a>
