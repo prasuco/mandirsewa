@@ -174,12 +174,12 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 <main class="max-w-7xl mx-auto px-6 py-12 space-y-20">
 
   <!-- ABOUT SECTION -->
-  <section class="text-center space-y-8">
+  <section class="space-y-8">
     <div class="space-y-3">
       <h2 class="text-2xl font-bold text-gray-900">
         About the Mandir
       </h2>
-      <p class="text-gray-500 max-w-md mx-auto">
+      <p class="text-gray-500 max-w-md">
         Learn about our history, traditions, and spiritual significance
       </p>
     </div>
@@ -191,11 +191,11 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
   <!-- IMAGE GALLERY -->
   <?php if (count($mandir_images) > 0): ?>
     <section class="space-y-8">
-      <div class="text-center space-y-3">
+      <div class="space-y-3">
         <h2 class="text-2xl font-bold text-gray-900">
           Sacred Gallery
         </h2>
-        <p class="text-gray-500 max-w-md mx-auto">
+        <p class="text-gray-500 max-w-md">
           Explore the divine beauty and spiritual moments captured at our temple
         </p>
       </div>
@@ -219,11 +219,11 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
   <!-- CAMPAIGNS & EVENTS SECTION -->
   <?php if (count($campaigns) > 0): ?>
     <section class="space-y-8">
-      <div class="text-center space-y-3">
+      <div class="space-y-3">
         <h2 class="text-2xl font-bold text-gray-900">
           Current Campaigns
         </h2>
-        <p class="text-gray-500 max-w-md mx-auto">
+        <p class="text-gray-500 max-w-md">
           Support our ongoing initiatives and help make a difference
         </p>
       </div>
@@ -269,11 +269,11 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
   <!-- UPCOMING EVENTS -->
   <?php if (count($events) > 0): ?>
     <section class="space-y-8">
-      <div class="text-center space-y-3">
+      <div class="space-y-3">
         <h2 class="text-2xl font-bold text-gray-900">
           Upcoming Events
         </h2>
-        <p class="text-gray-500 max-w-md mx-auto">
+        <p class="text-gray-500 max-w-md">
           Join us for special celebrations and spiritual gatherings
         </p>
       </div>
@@ -305,11 +305,11 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
   <!-- ANNOUNCEMENTS SECTION -->
   <?php if (count($all_announcements) > 0): ?>
     <section class="space-y-8">
-      <div class="text-center space-y-3">
+      <div class="space-y-3">
         <h2 class="text-2xl font-bold text-gray-900">
           Announcements
         </h2>
-        <p class="text-gray-500 max-w-md mx-auto">
+        <p class="text-gray-500 max-w-md">
           Important updates and news from the temple
         </p>
       </div>
@@ -346,89 +346,43 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     </section>
   <?php endif; ?>
 
-  <!-- FAQs AND DONATION SECTION -->
+  <!-- FAQs SECTION -->
   <?php if (count($faqs) > 0): ?>
     <section class="space-y-8">
-      <div class="text-center space-y-3">
+      <div class="space-y-3">
         <h2 class="text-2xl font-bold text-gray-900">
           Frequently Asked Questions
         </h2>
-        <p class="text-gray-500 max-w-md mx-auto">
+        <p class="text-gray-500 max-w-md">
           Find answers to common questions about our temple and services
         </p>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- FAQS -->
-        <div class="lg:col-span-2 space-y-4">
-          <?php foreach ($faqs as $index => $faq): ?>
-            <details class="group bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
-              <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
-                <h3 class="text-base font-medium text-gray-900 pr-4"><?= $faq['question'] ?></h3>
-                <span class="shrink-0 ml-2 w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 group-hover:bg-gray-200 transition-colors duration-200">
-                  <i class="fas fa-chevron-down text-gray-600 group-hover:text-gray-900 transition-colors duration-200 group-open:rotate-180 transform"></i>
-                </span>
-              </summary>
-              <div class="px-6 pb-6">
-                <p class="text-gray-600 leading-relaxed"><?= $faq['answer'] ?></p>
-              </div>
-            </details>
-          <?php endforeach; ?>
-        </div>
-
-        <!-- DONATION BOX -->
-        <div class="space-y-6">
-          <div class="sticky top-6">
-            <div class="bg-primary rounded-2xl p-6 text-white shadow-lg">
-              <div class="text-center space-y-4">
-                <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto">
-                  <i class="fas fa-donate text-xl"></i>
-                </div>
-
-                <div>
-                  <h3 class="text-xl font-bold">Support the Mandir</h3>
-                  <p class="text-white/90 text-sm mt-1">
-                    Your contribution supports daily seva and temple maintenance
-                  </p>
-                </div>
-              </div>
-
-              <div class="mt-6 space-y-4">
-
-
-                <div>
-                  <input
-                    type="number"
-                    id="amount_input"
-                    placeholder="Amount (NPR)"
-                    class="w-full rounded-lg bg-white/20 border border-white/30 placeholder-white/70 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/50" />
-                </div>
-
-                <button
-                  id="donate_btn"
-                  class="w-full bg-white text-primary font-semibold py-2 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-                  Donate Now
-                </button>
-
-                <p class="text-xs text-white/70 text-center">
-                  <i class="fas fa-shield-alt mr-1"></i>
-                  Secure payment via eSewa
-                </p>
-              </div>
+      <div class="space-y-4">
+        <?php foreach ($faqs as $index => $faq): ?>
+          <details class="group bg-white rounded-2xl shadow-sm hover:shadow-md transition-shadow duration-300">
+            <summary class="flex items-center justify-between p-6 cursor-pointer list-none">
+              <h3 class="text-base font-medium text-gray-900 pr-4"><?= $faq['question'] ?></h3>
+              <span class="shrink-0 ml-2 w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 group-hover:bg-gray-200 transition-colors duration-200">
+                <i class="fas fa-chevron-down text-gray-600 group-hover:text-gray-900 transition-colors duration-200 group-open:rotate-180 transform"></i>
+              </span>
+            </summary>
+            <div class="px-6 pb-6">
+              <p class="text-gray-600 leading-relaxed"><?= $faq['answer'] ?></p>
             </div>
-          </div>
-        </div>
+          </details>
+        <?php endforeach; ?>
       </div>
     </section>
   <?php endif; ?>
 
   <!-- LOCATION & CONTACT -->
   <section class="space-y-8">
-    <div class="text-center space-y-3">
+    <div class="space-y-3">
       <h2 class="text-2xl font-bold text-gray-900">
         Visit Us
       </h2>
-      <p class="text-gray-500 max-w-md mx-auto">
+      <p class="text-gray-500 max-w-md">
         Find our location and get in touch with our temple community
       </p>
     </div>
@@ -486,8 +440,55 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
       </div>
     </div>
   </section>
+
+
 </main>
 
+
+<!-- Donation Modal -->
+<div id="donationModal" class="modal bg-primary rounded-2xl p-6 text-white shadow-lg max-w-md!">
+  <div class="text-center space-y-4">
+    <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto">
+      <i class="fas fa-donate text-xl"></i>
+    </div>
+
+    <div>
+      <h3 class="text-xl font-bold">Support the Mandir</h3>
+      <p class="text-white/90 text-sm mt-1">
+        Your contribution supports daily seva and temple maintenance
+      </p>
+    </div>
+  </div>
+
+  <div class="mt-6 space-y-4">
+    <div>
+      <input
+        type="number"
+        id="amount_input"
+        placeholder="Amount (NPR)"
+        class="w-full rounded-lg bg-white/20 border border-white/30 placeholder-white/70 text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-white/50" />
+    </div>
+
+    <button
+      id="donate_btn"
+      class="w-full bg-white text-primary font-semibold py-2 rounded-lg hover:bg-gray-100 transition-colors duration-200">
+      Donate Now
+    </button>
+
+    <p class="text-xs text-white/70 text-center">
+      <i class="fas fa-shield-alt mr-1"></i>
+      Secure payment via eSewa
+    </p>
+  </div>
+</div>
+
+
+<!-- donate now button -->
+<a href="#donationModal" rel="modal:open" class=" bottom-6 right-6 text-center flex items-center justify-center fixed   px-3 py-2 bg-secondary text-white rounded-full">
+  <p>
+    Donate Us Now
+  </p>
+</a>
 
 <!-- for easy-sewa package -->
 <script src="/mandirsewa/public/js/easy-sewa.js"></script>
@@ -500,7 +501,7 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     product_code: "EPAYTEST",
     secret: "8gBm/:&EnhH.1/q"
   })
-  
+
 
   function donateToCampaign(campaignId) {
     let amount = $("#campaign_amount_" + campaignId).val();
@@ -567,4 +568,7 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     });
   });
 </script>
+
+
+
 <?php include "../components/footer.php"; ?>
