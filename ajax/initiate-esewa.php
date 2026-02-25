@@ -24,7 +24,7 @@ if ($amount_paid === '') {
     exit;
 }
 
-// basic escaping (since no prepared statements)
+
 $amount_paid = mysqli_real_escape_string($conn, $amount_paid);
 $mandir_id   = mysqli_real_escape_string($conn, $mandir_id);
 $campaign_id = mysqli_real_escape_string($conn, $campaign_id);
