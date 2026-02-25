@@ -38,12 +38,12 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
 <!-- HERO SECTION -->
 <section class="bg-gray-50 ">
-  <!-- ANNOUNCEMENT MODALS -->
-  <?php foreach ($active_announcements as  $announcement): ?>
+  <!-- announcement modals -->
+  <?php foreach ($active_announcements as  $announcement) { ?>
     <div id="announcementModal<?= $announcement['id'] ?>" class="modal bg-white max-w-lg! ">
-      <?php if ($announcement['image']): ?>
+      <?php if ($announcement['image']) { ?>
         <img src="/mandirsewa/<?= $announcement['image'] ?>" alt="<?= $announcement['title'] ?>" class="w-full h-48 object-cover">
-      <?php endif; ?>
+      <?php } ?>
       <div class="p-6">
         <div class="flex items-center justify-between mb-3">
           <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary text-white">
@@ -61,7 +61,17 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
         </div>
       </div>
     </div>
-  <?php endforeach; ?>
+  <?php } ?>
+
+  <script>
+    <?php foreach ($active_announcements as $announcement) {
+    ?>
+      $('#announcementModal<?= $announcement['id'] ?>').modal({
+        closeExisting: false,
+        fadeDuration: 100
+      });
+    <?php } ?>
+  </script>
 
   <!-- CAMPAIGN MODALS -->
   <?php foreach ($campaigns as $campaign): ?>
@@ -478,6 +488,8 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
   </section>
 </main>
 
+
+<!-- for easy-sewa package -->
 <script src="/mandirsewa/public/js/easy-sewa.js"></script>
 
 <script>
@@ -488,14 +500,7 @@ $all_announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
     product_code: "EPAYTEST",
     secret: "8gBm/:&EnhH.1/q"
   })
-
-  <?php foreach ($active_announcements as $announcement) {
-  ?>
-    $('#announcementModal<?= $announcement['id'] ?>').modal({
-      closeExisting: false,
-      fadeDuration: 100
-    });
-  <?php } ?>
+  
 
   function donateToCampaign(campaignId) {
     let amount = $("#campaign_amount_" + campaignId).val();
