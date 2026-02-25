@@ -31,6 +31,8 @@ CREATE TABLE mandirs (
   primary_contact VARCHAR(50),
   secondary_contact VARCHAR(50) NULL,
 
+  is_verified TINYINT(1) DEFAULT 0,
+
   created_by INT,
   created_at DATETIME,
   updated_at DATETIME,
@@ -103,10 +105,10 @@ CREATE TABLE announcements (
 
 CREATE TABLE kyc_verifications (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  mandir_id INT,
+  mandir_id INT UNIQUE,
   document_url VARCHAR(255),
   document_type VARCHAR(50),
-  status VARCHAR(50),
+  status VARCHAR(50) DEFAULT 'pending',
   submitted_at DATETIME,
   verified_at DATETIME NULL,
   verified_by INT NULL,
