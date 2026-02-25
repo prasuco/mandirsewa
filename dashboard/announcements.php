@@ -7,6 +7,7 @@ $announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <?php require "../components/dashboard/create-announcement-form.php" ?>
+<?php require "../components/dashboard/edit-announcement-form.php" ?>
 
 <div class="flex items-center justify-between px-4 py-3">
     <h2 class="text-xl font-semibold text-gray-800">
@@ -80,6 +81,17 @@ $announcements = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
                             <?php endif; ?>
                         </td>
                         <td class="p-4">
+                            <button type="button" 
+                                onclick="openEditAnnouncementModal(
+                                    <?= $announcement['id'] ?>,
+                                    '<?= addslashes($announcement['title']) ?>',
+                                    '<?= addslashes($announcement['description']) ?>',
+                                    '<?= $announcement['start_date'] ?>',
+                                    '<?= $announcement['end_date'] ?>'
+                                )"
+                                class="text-sm font-semibold text-blue-600 hover:text-blue-700 mr-3">
+                                Edit
+                            </button>
                             <a href="delete-announcement.php?id=<?= $announcement['id'] ?>" onclick="return confirm('Delete this announcement?')" class="text-sm font-semibold text-rose-500 hover:text-rose-600">
                                 Delete
                             </a>

@@ -14,6 +14,7 @@ $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 
 <!-- here comes create faq form -->
 <?php require "../components/dashboard/create-faq-form.php" ?>
+<?php require "../components/dashboard/edit-faq-form.php" ?>
 <!-- Header -->
 <div class="flex items-center justify-between   px-4 py-3">
     <h2 class="text-xl font-semibold text-gray-800">
@@ -72,10 +73,12 @@ $faqs = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
                     </td>
 
                     <td class="p-4">
-                        <a href="" class="text-sm font-semibold ">
+                        <button type="button" 
+                            onclick="openEditFAQModal(<?= $faq['id'] ?>, '<?= addslashes($faq['question']) ?>', '<?= addslashes($faq['answer']) ?>')"
+                            class="text-sm font-semibold text-blue-600 hover:text-blue-700 mr-3">
                             Edit
-                        </a>
-                        <a href="" class="text-sm font-semibold ">
+                        </button>
+                        <a href="delete-faq.php?id=<?= $faq['id'] ?>" onclick="return confirm('Delete this FAQ?')" class="text-sm font-semibold text-red-600 hover:text-red-700">
                             Delete
                         </a>
                     </td>

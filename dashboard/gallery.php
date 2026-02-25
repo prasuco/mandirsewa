@@ -7,6 +7,7 @@ $images = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
 ?>
 
 <?php require "../components/dashboard/create-image-form.php" ?>
+<?php require "../components/dashboard/edit-image-form.php" ?>
 
 <div class="flex items-center justify-between px-4 py-3">
     <h2 class="text-xl font-semibold text-gray-800">
@@ -26,6 +27,11 @@ $images = mysqli_query($conn, $sql)->fetch_all(MYSQLI_ASSOC);
                     <a href="/mandirsewa/<?= $image['url'] ?>" target="_blank" class="bg-white text-gray-800 px-3 py-1.5 rounded text-sm font-medium hover:bg-gray-100">
                         View
                     </a>
+                    <button type="button" 
+                        onclick="openEditImageModal(<?= $image['id'] ?>, '<?= addslashes($image['image_name']) ?>')"
+                        class="bg-blue-500 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-blue-600">
+                        Edit
+                    </button>
                     <a href="delete-image.php?id=<?= $image['id'] ?>" onclick="return confirm('Delete this image?')" class="bg-rose-500 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-rose-600">
                         Delete
                     </a>
