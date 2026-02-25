@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Sanitize inputs
     $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $slug = mysqli_real_escape_string($conn, $_POST['slug']);
+
     $description = mysqli_real_escape_string($conn, $_POST['description']);
     $about_content = mysqli_real_escape_string($conn, $_POST['about_content']);
     $address_lat = mysqli_real_escape_string($conn, $_POST['address_lat']);
@@ -69,7 +69,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "
         UPDATE mandirs SET
             name = '$name',
-            slug = '$slug',
             description = '$description',
             about_content = '$about_content',
             address_lat = '$address_lat',

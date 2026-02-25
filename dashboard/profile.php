@@ -51,7 +51,6 @@ $mandir = mysqli_query($conn, $sql)->fetch_assoc();
                 class="form-input"
                 value="<?= htmlspecialchars($mandir['slug']) ?>"
                 placeholder="shiva-mandir"
-                readonly
                 disabled>
         </div>
     </div>
